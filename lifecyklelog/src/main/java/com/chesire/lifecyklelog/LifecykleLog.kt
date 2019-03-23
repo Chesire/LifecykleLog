@@ -10,14 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.chesire.lifecyklelog.LifecykleLog.initialize
-import com.chesire.lifecyklelog.flags.FragmentLifecycle
+import com.chesire.lifecyklelog.flags.LifecycleEvent
 
 /**
  * A container to execute logging on Android lifecycle events.
  * To begin using this call [initialize] passing in the application class.
  */
 object LifecykleLog {
-    private lateinit var defaultFragmentMethods: Array<FragmentLifecycle>
+    private lateinit var logLifecycleEvents: Array<LifecycleEvent>
     private var log: ((String) -> Unit)? = null
 
     /**
@@ -25,29 +25,29 @@ object LifecykleLog {
      * Using [app] it will hook into all [Activity] life cycles, and from there the [Fragment]
      * life cycles.
      *
-     * @param defaultFragmentLifecycleMethods An array of lifecycle events to provide logging for,
-     * if none are passed some defaults are used.
+     * @param defaultLifecycleEvents An array of lifecycle events to provide logging for, if none
+     * are passed in some defaults are used.
      * @param logExecution method to execute when a lifecycle is logged, using this a different log
      * can be used. If nothing is passed in than `Log.d` will be used instead.
      */
     fun initialize(
         app: Application,
-        defaultFragmentLifecycleMethods: Array<FragmentLifecycle> = arrayOf(
-            FragmentLifecycle.ON_ATTACH,
-            FragmentLifecycle.ON_CREATE,
-            FragmentLifecycle.ON_CREATE_VIEW,
-            FragmentLifecycle.ON_ACTIVITY_CREATED,
-            FragmentLifecycle.ON_START,
-            FragmentLifecycle.ON_RESUME,
-            FragmentLifecycle.ON_PAUSE,
-            FragmentLifecycle.ON_STOP,
-            FragmentLifecycle.ON_DESTROY_VIEW,
-            FragmentLifecycle.ON_DESTROY,
-            FragmentLifecycle.ON_DETACH
+        defaultLifecycleEvents: Array<LifecycleEvent> = arrayOf(
+            LifecycleEvent.ON_ATTACH,
+            LifecycleEvent.ON_CREATE,
+            LifecycleEvent.ON_CREATE_VIEW,
+            LifecycleEvent.ON_ACTIVITY_CREATED,
+            LifecycleEvent.ON_START,
+            LifecycleEvent.ON_RESUME,
+            LifecycleEvent.ON_PAUSE,
+            LifecycleEvent.ON_STOP,
+            LifecycleEvent.ON_DESTROY_VIEW,
+            LifecycleEvent.ON_DESTROY,
+            LifecycleEvent.ON_DETACH
         ),
         logExecution: ((String) -> Unit)? = null
     ) {
-        defaultFragmentMethods = defaultFragmentLifecycleMethods
+        logLifecycleEvents = defaultLifecycleEvents
         log = logExecution
         setupActivity(app)
     }
@@ -87,7 +87,7 @@ object LifecykleLog {
 
     private val fragmentCallbacks = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
-            logLifecycle(f, FragmentLifecycle.ON_ATTACH)
+            logLifecycle(f, LifecycleEvent.ON_ATTACH)
             super.onFragmentAttached(fm, f, context)
         }
 
@@ -96,7 +96,7 @@ object LifecykleLog {
             f: Fragment,
             savedInstanceState: Bundle?
         ) {
-            logLifecycle(f, FragmentLifecycle.ON_CREATE)
+            logLifecycle(f, LifecycleEvent.ON_CREATE)
             super.onFragmentCreated(fm, f, savedInstanceState)
         }
 
@@ -106,7 +106,7 @@ object LifecykleLog {
             v: View,
             savedInstanceState: Bundle?
         ) {
-            logLifecycle(f, FragmentLifecycle.ON_CREATE_VIEW)
+            logLifecycle(f, LifecycleEvent.ON_CREATE_VIEW)
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
         }
 
@@ -115,47 +115,47 @@ object LifecykleLog {
             f: Fragment,
             savedInstanceState: Bundle?
         ) {
-            logLifecycle(f, FragmentLifecycle.ON_ACTIVITY_CREATED)
+            logLifecycle(f, LifecycleEvent.ON_ACTIVITY_CREATED)
             super.onFragmentActivityCreated(fm, f, savedInstanceState)
         }
 
         override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
-            logLifecycle(f, FragmentLifecycle.ON_START)
+            logLifecycle(f, LifecycleEvent.ON_START)
             super.onFragmentStarted(fm, f)
         }
 
         override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
-            logLifecycle(f, FragmentLifecycle.ON_RESUME)
+            logLifecycle(f, LifecycleEvent.ON_RESUME)
             super.onFragmentResumed(fm, f)
         }
 
         override fun onFragmentPaused(fm: FragmentManager, f: Fragment) {
-            logLifecycle(f, FragmentLifecycle.ON_PAUSE)
+            logLifecycle(f, LifecycleEvent.ON_PAUSE)
             super.onFragmentPaused(fm, f)
         }
 
         override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
-            logLifecycle(f, FragmentLifecycle.ON_STOP)
+            logLifecycle(f, LifecycleEvent.ON_STOP)
             super.onFragmentStopped(fm, f)
         }
 
         override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
-            logLifecycle(f, FragmentLifecycle.ON_DESTROY_VIEW)
+            logLifecycle(f, LifecycleEvent.ON_DESTROY_VIEW)
             super.onFragmentViewDestroyed(fm, f)
         }
 
         override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
-            logLifecycle(f, FragmentLifecycle.ON_DESTROY)
+            logLifecycle(f, LifecycleEvent.ON_DESTROY)
             super.onFragmentDestroyed(fm, f)
         }
 
         override fun onFragmentDetached(fm: FragmentManager, f: Fragment) {
-            logLifecycle(f, FragmentLifecycle.ON_DETACH)
+            logLifecycle(f, LifecycleEvent.ON_DETACH)
             super.onFragmentDetached(fm, f)
         }
 
         override fun onFragmentPreAttached(fm: FragmentManager, f: Fragment, context: Context) {
-            logLifecycle(f, FragmentLifecycle.ON_PRE_ATTACHED)
+            logLifecycle(f, LifecycleEvent.ON_PRE_ATTACHED)
             super.onFragmentPreAttached(fm, f, context)
         }
 
@@ -164,7 +164,7 @@ object LifecykleLog {
             f: Fragment,
             savedInstanceState: Bundle?
         ) {
-            logLifecycle(f, FragmentLifecycle.ON_PRE_CREATED)
+            logLifecycle(f, LifecycleEvent.ON_PRE_CREATED)
             super.onFragmentPreCreated(fm, f, savedInstanceState)
         }
 
@@ -173,7 +173,7 @@ object LifecykleLog {
             f: Fragment,
             outState: Bundle
         ) {
-            logLifecycle(f, FragmentLifecycle.ON_SAVE_INSTANCE_STATE)
+            logLifecycle(f, LifecycleEvent.ON_SAVE_INSTANCE_STATE)
             super.onFragmentSaveInstanceState(fm, f, outState)
         }
     }
@@ -189,18 +189,18 @@ object LifecykleLog {
         }
     }
 
-    private fun logLifecycle(fragment: Fragment, lifecycleEvent: FragmentLifecycle) {
+    private fun logLifecycle(fragment: Fragment, lifecycleEvent: LifecycleEvent) {
         fragment.lifecykleLog?.let { annotation ->
             // Has annotation, perform logging
-            if (annotation.overrideLifecycleMethods.isNotEmpty()) {
+            if (annotation.overrideLifecycleEvents.isNotEmpty()) {
                 // Overridden the defaults, check if should perform logging
-                if (!annotation.overrideLifecycleMethods.contains(lifecycleEvent)) {
+                if (!annotation.overrideLifecycleEvents.contains(lifecycleEvent)) {
                     // Don't perform logging as its not overridden
                     return
                 }
             } else {
                 // Check the defaults
-                if (!defaultFragmentMethods.contains(lifecycleEvent)) {
+                if (!logLifecycleEvents.contains(lifecycleEvent)) {
                     // Defaults doesn't contain this event
                     return
                 }

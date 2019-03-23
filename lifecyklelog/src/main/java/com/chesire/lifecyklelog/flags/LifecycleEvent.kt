@@ -1,12 +1,13 @@
 package com.chesire.lifecyklelog.flags
 
+import android.app.Activity
 import androidx.fragment.app.Fragment
 
 /**
- * Contains a list of lifecycle events available on a [Fragment].
+ * Contains a list of lifecycle events available on a [Fragment] or [Activity].
  * Use [eventName] to get its string representation.
  */
-enum class FragmentLifecycle(val eventName: String) {
+enum class LifecycleEvent(val eventName: String) {
     ON_ATTACH("onAttach"),
     ON_CREATE("onCreate"),
     ON_CREATE_VIEW("onCreateView"),

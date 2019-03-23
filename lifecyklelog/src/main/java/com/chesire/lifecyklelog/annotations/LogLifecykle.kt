@@ -3,7 +3,7 @@ package com.chesire.lifecyklelog.annotations
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import com.chesire.lifecyklelog.LifecykleLog
-import com.chesire.lifecyklelog.flags.FragmentLifecycle
+import com.chesire.lifecyklelog.flags.LifecycleEvent
 
 /**
  * Annotation to put on an [Activity] or a [Fragment] that denotes its lifecycle methods should be
@@ -12,7 +12,7 @@ import com.chesire.lifecyklelog.flags.FragmentLifecycle
  * use either the name of the class or something descriptive to see in the logs. If nothing is
  * provided then [LifecykleLog] will attempt to get it by inspecting the class.
  * By default all lifecycle methods that were initialized in [LifecykleLog] will be logged out,
- * if the [overrideLifecycleMethods] is provided then only the methods provided in there will be
+ * if the [overrideLifecycleEvents] is provided then only the methods provided in there will be
  * logged out.
  */
 @MustBeDocumented
@@ -20,5 +20,5 @@ import com.chesire.lifecyklelog.flags.FragmentLifecycle
 @Target(AnnotationTarget.CLASS)
 annotation class LogLifecykle(
     val className: String = "",
-    val overrideLifecycleMethods: Array<FragmentLifecycle> = []
+    val overrideLifecycleEvents: Array<LifecycleEvent> = []
 )
