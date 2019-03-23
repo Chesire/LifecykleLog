@@ -10,14 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.chesire.lifecyklelog.LifecykleLog.initialize
-import com.chesire.lifecyklelog.annotations.LogLifecykle
-import com.chesire.lifecyklelog.flags.LifecycleEvent
 
 /**
  * A container to execute logging on Android lifecycle events.
  * To begin using this call [initialize] passing in the application class.
  */
 object LifecykleLog {
+    private val annotationClass = LogLifecykle::class.java
     private lateinit var logLifecycleEvents: Array<LifecycleEvent>
     private var log: ((String) -> Unit)? = null
 
@@ -185,43 +184,33 @@ object LifecykleLog {
         }
     }
 
-    private fun logLifecycle(activity: Activity, lifecycleEvent: LifecycleEvent) {
-        activity.lifecykleLog?.let { annotation ->
-            generateLog(activity, annotation, lifecycleEvent)
-        }
-    }
-
-    private fun logLifecycle(fragment: Fragment, lifecycleEvent: LifecycleEvent) {
-        fragment.lifecykleLog?.let { annotation ->
-            generateLog(fragment, annotation, lifecycleEvent)
-        }
-    }
-
-    private fun <T : Any> generateLog(clazz: T, annotation: LogLifecykle, lifecycleEvent: LifecycleEvent) {
-        if (annotation.overrideLifecycleEvents.isNotEmpty()) {
-            // Overridden the defaults, check if should perform logging
-            if (!annotation.overrideLifecycleEvents.contains(lifecycleEvent)) {
-                // Don't perform logging as its not overridden
-                return
+    private fun <T : Any> logLifecycle(clazz: T, lifecycleEvent: LifecycleEvent) {
+        clazz::class.java.getAnnotation(annotationClass)?.let { annotation ->
+            if (annotation.overrideLifecycleEvents.isNotEmpty()) {
+                // Overridden the defaults, check if should perform logging
+                if (!annotation.overrideLifecycleEvents.contains(lifecycleEvent)) {
+                    // Don't perform logging as this lifecycle event is not wanted
+                    return
+                }
+            } else {
+                // Check the defaults
+                if (!logLifecycleEvents.contains(lifecycleEvent)) {
+                    // Defaults doesn't contain this event
+                    return
+                }
             }
-        } else {
-            // Check the defaults
-            if (!logLifecycleEvents.contains(lifecycleEvent)) {
-                // Defaults doesn't contain this event
-                return
-            }
-        }
 
-        val statement = if (annotation.className.isNotEmpty()) {
-            annotation.className
-        } else {
-            clazz::class.java.simpleName
+            val statement = if (annotation.className.isNotEmpty()) {
+                annotation.className
+            } else {
+                clazz::class.java.simpleName
+            }
+            executeLog(statement, lifecycleEvent.eventName)
         }
-        executeLog(statement, lifecycleEvent.eventName)
     }
 
     private fun executeLog(statement: String, lifecycleEvent: String) {
         val logLine = "$statement ⇀ $lifecycleEvent"
-        log?.invoke("$statement ⇀ $lifecycleEvent") ?: Log.d("Lifecykle", logLine)
+        log?.invoke(logLine) ?: Log.d("Lifecykle", logLine)
     }
 }

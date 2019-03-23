@@ -2,7 +2,7 @@ package com.chesire.lifecyklelogsample
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.chesire.lifecyklelog.annotations.LogLifecykle
+import com.chesire.lifecyklelog.LogLifecykle
 
 @LogLifecykle("MainActivity")
 class MainActivity : AppCompatActivity() {

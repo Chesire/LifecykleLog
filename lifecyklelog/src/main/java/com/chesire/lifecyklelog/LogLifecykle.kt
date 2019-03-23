@@ -1,9 +1,9 @@
-package com.chesire.lifecyklelog.annotations
+package com.chesire.lifecyklelog
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
 import com.chesire.lifecyklelog.LifecykleLog
-import com.chesire.lifecyklelog.flags.LifecycleEvent
+import com.chesire.lifecyklelog.LifecycleEvent
 
 /**
  * Annotation to put on an [Activity] or a [Fragment] that denotes its lifecycle methods should be

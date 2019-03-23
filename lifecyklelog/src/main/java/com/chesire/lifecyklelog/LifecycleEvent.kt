@@ -1,4 +1,4 @@
-package com.chesire.lifecyklelog.flags
+package com.chesire.lifecyklelog
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
