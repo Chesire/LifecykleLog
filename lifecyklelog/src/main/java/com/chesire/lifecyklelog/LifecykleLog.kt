@@ -43,10 +43,10 @@ object LifecykleLog {
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+            LifecykleLog.logLifecycle(activity, "onCreate")
             if (activity is FragmentActivity) {
                 setupFragment(activity)
             }
-            logLifecycleEvent(activity.lifecykleLog, "onCreated")
         }
     }
 
@@ -56,25 +56,36 @@ object LifecykleLog {
             f: Fragment,
             savedInstanceState: Bundle?
         ) {
-            logLifecycleEvent(f.lifecykleLog, "onCreate")
+            logLifecycle(f, "onCreate")
             super.onFragmentCreated(fm, f, savedInstanceState)
         }
     }
 
-    private fun logLifecycleEvent(annotation: LogLifecykle?, lifecycleEvent: String) {
-        if (annotation == null) {
-            return
+    private fun logLifecycle(fragment: Fragment, lifecycleEvent: String) {
+        fragment.lifecykleLog?.let {
+            val statement = if (it.logStatement.isNotEmpty()) {
+                it.logStatement
+            } else {
+                fragment::class.java.simpleName
+            }
+            logLifecycleEvent(statement, lifecycleEvent)
         }
+    }
 
-        val output = if (annotation.logStatement.isNotEmpty()) {
-            annotation.logStatement
-        } else {
-            // use reflection to get the class?
-            ""
+    private fun logLifecycle(activity: Activity, lifecycleEvent: String) {
+        activity.lifecykleLog?.let {
+            val statement = if (it.logStatement.isNotEmpty()) {
+                it.logStatement
+            } else {
+                activity::class.java.simpleName
+            }
+            logLifecycleEvent(statement, lifecycleEvent)
         }
+    }
 
+    private fun logLifecycleEvent(statement: String, lifecycleEvent: String) {
         // allow this to be nullable - if it is use Log.d here?
-        log("$output ⇀ $lifecycleEvent")
+        log("$statement ⇀ $lifecycleEvent")
     }
 
     private val Activity.lifecykleLog: LogLifecykle?
