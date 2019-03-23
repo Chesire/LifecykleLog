@@ -3,6 +3,7 @@ package com.chesire.lifecyklelog
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -10,9 +11,9 @@ import com.chesire.lifecyklelog.annotations.LogLifecykle
 
 object LifecykleLog {
     private val annotationClass = LogLifecykle::class.java
-    private lateinit var log: (String) -> Unit
+    private var log: ((String) -> Unit)? = null
 
-    fun initialize(app: Application, logExecution: (String) -> Unit) {
+    fun initialize(app: Application, logExecution: ((String) -> Unit)? = null) {
         log = logExecution
         setupActivity(app)
     }
@@ -84,8 +85,8 @@ object LifecykleLog {
     }
 
     private fun logLifecycleEvent(statement: String, lifecycleEvent: String) {
-        // allow this to be nullable - if it is use Log.d here?
-        log("$statement ⇀ $lifecycleEvent")
+        val logLine = "$statement ⇀ $lifecycleEvent"
+        log?.invoke("$statement ⇀ $lifecycleEvent") ?: Log.d("Lifecykle", logLine)
     }
 
     private val Activity.lifecykleLog: LogLifecykle?
