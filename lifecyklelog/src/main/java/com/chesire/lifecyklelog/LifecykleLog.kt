@@ -59,29 +59,35 @@ object LifecykleLog {
         activity.supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallbacks, true)
 
     private val activityCallbacks = object : Application.ActivityLifecycleCallbacks {
-        override fun onActivityPaused(activity: Activity) {
-        }
-
-        override fun onActivityResumed(activity: Activity) {
-        }
-
-        override fun onActivityStarted(activity: Activity) {
-        }
-
-        override fun onActivityDestroyed(activity: Activity) {
-        }
-
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
-        }
-
-        override fun onActivityStopped(activity: Activity) {
-        }
-
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            LifecykleLog.logLifecycle(activity, "onCreate")
+            logLifecycle(activity, LifecycleEvent.ON_CREATE)
             if (activity is FragmentActivity) {
                 setupFragment(activity)
             }
+        }
+
+        override fun onActivityStarted(activity: Activity) {
+            logLifecycle(activity, LifecycleEvent.ON_START)
+        }
+
+        override fun onActivityResumed(activity: Activity) {
+            logLifecycle(activity, LifecycleEvent.ON_RESUME)
+        }
+
+        override fun onActivityPaused(activity: Activity) {
+            logLifecycle(activity, LifecycleEvent.ON_PAUSE)
+        }
+
+        override fun onActivityStopped(activity: Activity) {
+            logLifecycle(activity, LifecycleEvent.ON_STOP)
+        }
+
+        override fun onActivityDestroyed(activity: Activity) {
+            logLifecycle(activity, LifecycleEvent.ON_DESTROY)
+        }
+
+        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+            logLifecycle(activity, LifecycleEvent.ON_SAVE_INSTANCE_STATE)
         }
     }
 
@@ -178,14 +184,29 @@ object LifecykleLog {
         }
     }
 
-    private fun logLifecycle(activity: Activity, lifecycleEvent: String) {
-        activity.lifecykleLog?.let {
-            val statement = if (it.className.isNotEmpty()) {
-                it.className
+    private fun logLifecycle(activity: Activity, lifecycleEvent: LifecycleEvent) {
+        activity.lifecykleLog?.let { annotation ->
+            // Has annotation, perform logging
+            if (annotation.overrideLifecycleEvents.isNotEmpty()) {
+                // Overridden the defaults, check if should perform logging
+                if (!annotation.overrideLifecycleEvents.contains(lifecycleEvent)) {
+                    // Don't perform logging as its not overridden
+                    return
+                }
+            } else {
+                // Check the defaults
+                if (!logLifecycleEvents.contains(lifecycleEvent)) {
+                    // Defaults doesn't contain this event
+                    return
+                }
+            }
+
+            val statement = if (annotation.className.isNotEmpty()) {
+                annotation.className
             } else {
                 activity::class.java.simpleName
             }
-            logLifecycleEvent(statement, lifecycleEvent)
+            logLifecycleEvent(statement, lifecycleEvent.eventName)
         }
     }
 
