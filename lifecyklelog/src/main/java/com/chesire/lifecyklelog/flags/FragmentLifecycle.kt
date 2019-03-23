@@ -14,6 +14,7 @@ enum class FragmentLifecycle(val eventName: String) {
     ON_DESTROY("onDestroy"),
     ON_DETACH("onDetach"),
 
+    ON_PRE_ATTACHED("onPreAttached"),
     ON_PRE_CREATED("onPreCreated"),
     ON_SAVE_INSTANCE_STATE("onSaveInstanceState")
 }
