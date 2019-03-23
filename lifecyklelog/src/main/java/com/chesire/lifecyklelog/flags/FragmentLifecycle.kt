@@ -1,6 +1,6 @@
 package com.chesire.lifecyklelog.flags
 
-enum class FragmentLifecycle(val lifecycleEvent: String) {
+enum class FragmentLifecycle(val eventName: String) {
     ON_ATTACH("onAttach"),
     ON_CREATE("onCreate"),
     ON_CREATE_VIEW("onCreateView"),

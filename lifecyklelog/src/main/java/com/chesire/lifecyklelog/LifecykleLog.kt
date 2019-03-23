@@ -8,12 +8,31 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.chesire.lifecyklelog.annotations.LogLifecykle
+import com.chesire.lifecyklelog.flags.FragmentLifecycle
 
 object LifecykleLog {
     private val annotationClass = LogLifecykle::class.java
+    private lateinit var defaultFragmentMethods: Array<FragmentLifecycle>
     private var log: ((String) -> Unit)? = null
 
-    fun initialize(app: Application, logExecution: ((String) -> Unit)? = null) {
+    fun initialize(
+        app: Application,
+        defaultFragmentLifecycleMethods: Array<FragmentLifecycle> = arrayOf(
+            FragmentLifecycle.ON_ATTACH,
+            FragmentLifecycle.ON_CREATE,
+            FragmentLifecycle.ON_CREATE_VIEW,
+            FragmentLifecycle.ON_ACTIVITY_CREATED,
+            FragmentLifecycle.ON_START,
+            FragmentLifecycle.ON_RESUME,
+            FragmentLifecycle.ON_PAUSE,
+            FragmentLifecycle.ON_STOP,
+            FragmentLifecycle.ON_DESTROY_VIEW,
+            FragmentLifecycle.ON_DESTROY,
+            FragmentLifecycle.ON_DETACH
+        ),
+        logExecution: ((String) -> Unit)? = null
+    ) {
+        defaultFragmentMethods = defaultFragmentLifecycleMethods
         log = logExecution
         setupActivity(app)
     }
@@ -57,19 +76,8 @@ object LifecykleLog {
             f: Fragment,
             savedInstanceState: Bundle?
         ) {
-            logLifecycle(f, "onCreate")
+            logLifecycle(f, FragmentLifecycle.ON_CREATE)
             super.onFragmentCreated(fm, f, savedInstanceState)
-        }
-    }
-
-    private fun logLifecycle(fragment: Fragment, lifecycleEvent: String) {
-        fragment.lifecykleLog?.let {
-            val statement = if (it.logStatement.isNotEmpty()) {
-                it.logStatement
-            } else {
-                fragment::class.java.simpleName
-            }
-            logLifecycleEvent(statement, lifecycleEvent)
         }
     }
 
@@ -81,6 +89,32 @@ object LifecykleLog {
                 activity::class.java.simpleName
             }
             logLifecycleEvent(statement, lifecycleEvent)
+        }
+    }
+
+    private fun logLifecycle(fragment: Fragment, lifecycleEvent: FragmentLifecycle) {
+        fragment.lifecykleLog?.let { annotation ->
+            // Has annotation, perform logging
+            if (annotation.lifecycleMethods.isNotEmpty()) {
+                // Overridden the defaults, check if should perform logging
+                if (!annotation.lifecycleMethods.contains(lifecycleEvent)) {
+                    // Don't perform logging as its not overridden
+                    return
+                }
+            } else {
+                // Check the defaults
+                if (!defaultFragmentMethods.contains(lifecycleEvent)) {
+                    // Defaults doesn't contain this event
+                    return
+                }
+            }
+
+            val statement = if (annotation.logStatement.isNotEmpty()) {
+                annotation.logStatement
+            } else {
+                fragment::class.java.simpleName
+            }
+            logLifecycleEvent(statement, lifecycleEvent.eventName)
         }
     }
 
