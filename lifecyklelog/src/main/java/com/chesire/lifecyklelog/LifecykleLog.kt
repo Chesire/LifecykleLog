@@ -9,12 +9,27 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.chesire.lifecyklelog.LifecykleLog.initialize
 import com.chesire.lifecyklelog.flags.FragmentLifecycle
 
+/**
+ * A container to execute logging on Android lifecycle events.
+ * To begin using this call [initialize] passing in the application class.
+ */
 object LifecykleLog {
     private lateinit var defaultFragmentMethods: Array<FragmentLifecycle>
     private var log: ((String) -> Unit)? = null
 
+    /**
+     * Initializes the [LifecykleLog] with the given [app].
+     * Using [app] it will hook into all [Activity] life cycles, and from there the [Fragment]
+     * life cycles.
+     *
+     * @param defaultFragmentLifecycleMethods An array of lifecycle events to provide logging for,
+     * if none are passed some defaults are used.
+     * @param logExecution method to execute when a lifecycle is logged, using this a different log
+     * can be used. If nothing is passed in than `Log.d` will be used instead.
+     */
     fun initialize(
         app: Application,
         defaultFragmentLifecycleMethods: Array<FragmentLifecycle> = arrayOf(
@@ -165,8 +180,8 @@ object LifecykleLog {
 
     private fun logLifecycle(activity: Activity, lifecycleEvent: String) {
         activity.lifecykleLog?.let {
-            val statement = if (it.logStatement.isNotEmpty()) {
-                it.logStatement
+            val statement = if (it.className.isNotEmpty()) {
+                it.className
             } else {
                 activity::class.java.simpleName
             }
@@ -177,9 +192,9 @@ object LifecykleLog {
     private fun logLifecycle(fragment: Fragment, lifecycleEvent: FragmentLifecycle) {
         fragment.lifecykleLog?.let { annotation ->
             // Has annotation, perform logging
-            if (annotation.lifecycleMethods.isNotEmpty()) {
+            if (annotation.overrideLifecycleMethods.isNotEmpty()) {
                 // Overridden the defaults, check if should perform logging
-                if (!annotation.lifecycleMethods.contains(lifecycleEvent)) {
+                if (!annotation.overrideLifecycleMethods.contains(lifecycleEvent)) {
                     // Don't perform logging as its not overridden
                     return
                 }
@@ -191,8 +206,8 @@ object LifecykleLog {
                 }
             }
 
-            val statement = if (annotation.logStatement.isNotEmpty()) {
-                annotation.logStatement
+            val statement = if (annotation.className.isNotEmpty()) {
+                annotation.className
             } else {
                 fragment::class.java.simpleName
             }
