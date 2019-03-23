@@ -9,11 +9,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.chesire.lifecyklelog.annotations.LogLifecykle
 import com.chesire.lifecyklelog.flags.FragmentLifecycle
 
 object LifecykleLog {
-    private val annotationClass = LogLifecykle::class.java
     private lateinit var defaultFragmentMethods: Array<FragmentLifecycle>
     private var log: ((String) -> Unit)? = null
 
@@ -206,9 +204,4 @@ object LifecykleLog {
         val logLine = "$statement ⇀ $lifecycleEvent"
         log?.invoke("$statement ⇀ $lifecycleEvent") ?: Log.d("Lifecykle", logLine)
     }
-
-    private val Activity.lifecykleLog: LogLifecykle?
-        get() = this::class.java.getAnnotation(annotationClass)
-    private val Fragment.lifecykleLog: LogLifecykle?
-        get() = this::class.java.getAnnotation(annotationClass)
 }
