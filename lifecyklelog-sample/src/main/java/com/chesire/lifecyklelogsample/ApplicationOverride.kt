@@ -1,6 +1,8 @@
 package com.chesire.lifecyklelogsample
 
 import android.app.Application
+import android.util.Log
+import com.chesire.lifecyklelog.LifecycleEvent
 import com.chesire.lifecyklelog.LifecykleLog
 
 /**
@@ -10,6 +12,15 @@ import com.chesire.lifecyklelog.LifecykleLog
 class ApplicationOverride : Application() {
     override fun onCreate() {
         super.onCreate()
-        LifecykleLog.initialize(this)
+        LifecykleLog.initialize(
+            this,
+            defaultLifecycleEvents = arrayOf(
+                LifecycleEvent.ON_CREATE,
+                LifecycleEvent.ON_ATTACH,
+                LifecycleEvent.ON_DESTROY
+            )
+        ) { logStatement ->
+            Log.i("Lifecykle", logStatement)
+        }
     }
 }
