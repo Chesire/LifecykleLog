@@ -108,8 +108,8 @@ _For more examples and usage, please refer to the [sample](https://github.com/Ch
 
 ## Release History
 
-* 0.0.1
-    * Work in progress
+* 1.0.0
+    * Initial version
 
 
 ## Contributing

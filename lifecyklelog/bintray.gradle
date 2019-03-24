@@ -5,7 +5,7 @@ publish {
     repoName = 'LifecykleLog'
     groupId = 'com.chesire'
     artifactId = 'lifecyklelog'
-    publishVersion = '0.0.1'
+    publishVersion = '1.0.0'
     desc = 'Android library for logging out Activity and Fragment lifecycle methods.'
     website = 'https://github.com/Chesire/LifecykleLog'
 }
