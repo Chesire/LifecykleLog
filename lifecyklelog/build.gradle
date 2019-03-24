@@ -6,7 +6,7 @@ apply from: '../ktlint.gradle'
 
 android {
     compileSdkVersion 28
-    defaultConfig.minSdkVersion 21
+    defaultConfig.minSdkVersion 14
 }
 
 dependencies {
