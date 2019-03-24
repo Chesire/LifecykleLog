@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC14"
+}
+
 allprojects {
     repositories {
         google()
@@ -20,4 +24,25 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+detekt {
+    toolVersion = "1.0.0-RC14"
+    config = files("detekt.yml")
+    input = files(
+            "lifecyklelog/src/main/java",
+            "lifecyklelog-sample/src/main/java"
+    )
+    filters = ".*/resources/.*,.*/build/.*"
+
+    reports {
+        xml {
+            enabled = true
+            destination = file("lifecyklelog/build/reports/detekt/detekt.xml")
+        }
+        html {
+            enabled = true
+            destination = file("lifecyklelog/build/reports/detekt/detekt.html")
+        }
+    }
 }
