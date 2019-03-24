@@ -15,7 +15,93 @@ implementation 'com.chesire:lifecyklelog:{version}'
 
 ## Usage example
 
-fillin
+Initialize in your application class.
+
+```kotlin
+class ApplicationOverride : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        LifecykleLog.initialize(this)
+    }
+}
+```
+
+Add the `@LogLifecykle` annotation to the Activity or Fragment that the lifecycle methods should be logged for.
+
+```kotlin
+@LogLifecykle
+class MainActivity : AppCompatActivity() { ...
+
+@LogLifecykle
+class MainFragment : Fragment() { ...
+```
+
+Then lifecycle events will be logged out in logcat.
+
+```
+D/Lifecykle: MainActivity ⇀ onStart
+D/Lifecykle: MainFragment ⇀ onAttach
+D/Lifecykle: MainFragment ⇀ onCreate
+D/Lifecykle: MainFragment ⇀ onCreateView
+D/Lifecykle: MainFragment ⇀ onActivityCreated
+D/Lifecykle: MainFragment ⇀ onStart
+D/Lifecykle: MainActivity ⇀ onResume
+D/Lifecykle: MainFragment ⇀ onResume
+D/Lifecykle: MainActivity ⇀ onPause
+D/Lifecykle: MainFragment ⇀ onPause
+D/Lifecykle: MainActivity ⇀ onStop
+D/Lifecykle: MainFragment ⇀ onStop
+```
+
+## Configuration
+
+### Logging mechanism
+By default LogLifecykle will output to `Log.d` with a tag of `Lifecykle`, to override this behaviour pass a callback into the `initialize` block.
+
+```kotlin
+LifecykleLog.initialize(this) { logStatement ->
+    Log.e("CustomTag", logStatement)
+}
+```
+
+This can allow you to use other logging frameworks such as Timber.
+
+```kotlin
+LifecykleLog.initialize(this) { logStatement ->
+    Timber.i(logStatement)
+}
+```
+
+### Lifecycle methods
+To customise which lifecycle methods are logged out, an enum is available to pass into either the `initalize` block, or can be used with the annotation.
+
+```kotlin
+LifecykleLog.initialize(
+    this, 
+    defaultLifecycleEvents = arrayOf(LifecycleEvent.ON_CREATE, LifecycleEvent.ON_DESTROY)
+)
+
+@LogLifecykle(overrideLifecycleEvents = [LifecycleEvent.ON_START])
+class MainActivity : AppCompatActivity() {
+
+@LogLifecykle(overrideLifecycleEvents = [LifecycleEvent.ON_ACTIVITY_CREATED, LifecycleEvent.ON_ATTACH])
+class MainFragment : Fragment() {
+```
+If `defaultLifecycleEvents` is provided to the `initalize` call then it will override the defaults.  
+If `overrideLifecycleEvents` is provided on the annotation, **only** the methods that are provided in this will be logged out.
+
+### Class name
+To customise the class name that is logged out, a new name can be provided to the annotation.
+
+```kotlin
+@LogLifecykle(className = "MainActivity")
+class MainActivity : AppCompatActivity() {
+
+@LogLifecykle(className = "MaybeMainFragment")
+class MainFragment : Fragment() {
+```
+
+This can be useful if ProGuard strips out the class names and you really need to see them in the logs. By default the name will be pulled from the objects `class.java.simpleName`.
 
 _For more examples and usage, please refer to the [sample](https://github.com/Chesire/LifecykleLog/tree/master/lifecyklelog-sample)._
 
