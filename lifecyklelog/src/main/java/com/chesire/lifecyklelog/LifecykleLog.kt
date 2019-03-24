@@ -91,6 +91,7 @@ object LifecykleLog {
         }
     }
 
+    @Suppress("TooManyFunctions")
     private val fragmentCallbacks = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
             logLifecycle(f, LifecycleEvent.ON_ATTACH)
