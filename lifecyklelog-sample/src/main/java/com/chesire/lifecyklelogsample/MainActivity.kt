@@ -2,7 +2,6 @@ package com.chesire.lifecyklelogsample
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.chesire.lifecyklelog.LifecycleEvent
 import com.chesire.lifecyklelog.LogLifecykle
 
 /**
