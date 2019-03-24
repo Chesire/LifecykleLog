@@ -1,0 +1,11 @@
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+    userOrg = 'chesire'
+    repoName = 'LifecykleLog'
+    groupId = 'com.chesire'
+    artifactId = 'lifecyklelog'
+    publishVersion = '0.0.1'
+    desc = 'Android library for logging out Activity and Fragment lifecycle methods.'
+    website = 'https://github.com/Chesire/LifecykleLog'
+}
