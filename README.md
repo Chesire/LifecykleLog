@@ -59,16 +59,16 @@ D/Lifecykle: MainFragment ⇀ onStop
 By default LogLifecykle will output to `Log.d` with a tag of `Lifecykle`, to override this behaviour pass a callback into the `initialize` block.
 
 ```kotlin
-LifecykleLog.initialize(this) { logStatement ->
-    Log.e("CustomTag", logStatement)
+LifecykleLog.initialize(this) { clazz, lifecycleEvent ->
+    Log.e(clazz, lifecycleEvent)
 }
 ```
 
 This can allow you to use other logging frameworks such as Timber.
 
 ```kotlin
-LifecykleLog.initialize(this) { logStatement ->
-    Timber.i(logStatement)
+LifecykleLog.initialize(this) { clazz, lifecycleEvent ->
+    Timber.i("$clazz -> $lifecycleEvent")
 }
 ```
 

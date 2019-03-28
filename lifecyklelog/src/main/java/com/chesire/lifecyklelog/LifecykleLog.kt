@@ -18,7 +18,7 @@ import com.chesire.lifecyklelog.LifecykleLog.initialize
 object LifecykleLog {
     private val annotationClass = LogLifecykle::class.java
     private lateinit var logLifecycleEvents: Array<LifecycleEvent>
-    private var log: ((String) -> Unit)? = null
+    private var log: ((String, String) -> Unit)? = null
 
     /**
      * Initializes the [LifecykleLog] with the given [app].
@@ -45,7 +45,7 @@ object LifecykleLog {
             LifecycleEvent.ON_DESTROY,
             LifecycleEvent.ON_DETACH
         ),
-        logExecution: ((String) -> Unit)? = null
+        logExecution: ((String, String) -> Unit)? = null
     ) {
         logLifecycleEvents = defaultLifecycleEvents
         log = logExecution
@@ -211,7 +211,6 @@ object LifecykleLog {
     }
 
     private fun executeLog(statement: String, lifecycleEvent: String) {
-        val logLine = "$statement ⇀ $lifecycleEvent"
-        log?.invoke(logLine) ?: Log.d("Lifecykle", logLine)
+        log?.invoke(statement, lifecycleEvent) ?: Log.d("Lifecykle", "$statement ⇀ $lifecycleEvent")
     }
 }
