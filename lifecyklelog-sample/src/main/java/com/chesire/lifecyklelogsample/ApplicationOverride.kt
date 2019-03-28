@@ -19,8 +19,8 @@ class ApplicationOverride : Application() {
                 LifecycleEvent.ON_ATTACH,
                 LifecycleEvent.ON_DESTROY
             )
-        ) { logStatement ->
-            Log.i("Lifecykle", logStatement)
+        ) { clazz, lifecycleEvent ->
+            Log.i(clazz, lifecycleEvent)
         }
     }
 }
