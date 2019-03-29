@@ -56,39 +56,39 @@ D/Lifecykle: MainFragment ⇀ onStop
 ## Configuration
 
 ### Logging mechanism
-By default LogLifecykle will output to `Log.d` with a tag of `Lifecykle`, to override this behaviour pass a callback into the `initialize` block.
+By default LogLifecykle will output to `Log.d` with a tag of `Lifecykle`, to override this behaviour pass an implementation into the `LifecykleLog.logHandler`.
 
 ```kotlin
-LifecykleLog.initialize(this) { clazz, lifecycleEvent ->
-    Log.e(clazz, lifecycleEvent)
+LifecykleLog.logHandler = LogHandler { clazz, lifecycleEvent ->
+    Log.e(clazz, lifecycleEvent) 
 }
 ```
 
 This can allow you to use other logging frameworks such as Timber.
 
 ```kotlin
-LifecykleLog.initialize(this) { clazz, lifecycleEvent ->
+LifecykleLog.logHandler = LogHandler { clazz, lifecycleEvent ->
     Timber.i("$clazz -> $lifecycleEvent")
 }
 ```
 
 ### Lifecycle methods
-To customise which lifecycle methods are logged out, an enum is available to pass into either the `initalize` block, or can be used with the annotation.
+To customise which lifecycle methods are logged out, an array of the `LifecycleEvent` enum can be passed into  `LifecykleLog.logEvents`, this can also be done with the `@LogLifecykle` annotation.
 
 ```kotlin
-LifecykleLog.initialize(
-    this, 
-    defaultLifecycleEvents = arrayOf(LifecycleEvent.ON_CREATE, LifecycleEvent.ON_DESTROY)
+LifecykleLog.logEvents = arrayOf(
+    LifecycleEvent.ON_CREATE, 
+    LifecycleEvent.ON_DESTROY
 )
 
-@LogLifecykle(overrideLifecycleEvents = [LifecycleEvent.ON_START])
+@LogLifecykle(overrideLogEvents = [LifecycleEvent.ON_START])
 class MainActivity : AppCompatActivity() {
 
-@LogLifecykle(overrideLifecycleEvents = [LifecycleEvent.ON_ACTIVITY_CREATED, LifecycleEvent.ON_ATTACH])
+@LogLifecykle(overrideLogEvents = [LifecycleEvent.ON_ACTIVITY_CREATED, LifecycleEvent.ON_ATTACH])
 class MainFragment : Fragment() {
 ```
-If `defaultLifecycleEvents` is provided to the `initalize` call then it will override the defaults.  
-If `overrideLifecycleEvents` is provided on the annotation, **only** the methods that are provided in this will be logged out.
+If `logEvents` is provided to the `LifecykleLog` then it will override the defaults.  
+If `overrideLogEvents` is provided on the annotation, **only** the methods that are provided in this will be logged out.
 
 ### Class name
 To customise the class name that is logged out, a new name can be provided to the annotation.
@@ -108,6 +108,8 @@ _For more examples and usage, please refer to the [sample](https://github.com/Ch
 
 ## Release History
 
+* 2.0.0
+	* Refactor to be easier to configure, stripping the initialize method down to just taking the Application object.
 * 1.0.0
     * Initial version
 
