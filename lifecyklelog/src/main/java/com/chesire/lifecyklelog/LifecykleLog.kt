@@ -17,40 +17,41 @@ import com.chesire.lifecyklelog.LifecykleLog.initialize
  */
 object LifecykleLog {
     private val annotationClass = LogLifecykle::class.java
-    private lateinit var logLifecycleEvents: Array<LifecycleEvent>
-    private var log: ((String, String) -> Unit)? = null
+
+    /**
+     * An array of lifecycle events to provide logging for.
+     * If not overridden then will use the defaults of [LifecycleEvent.ON_ATTACH],
+     * [LifecycleEvent.ON_CREATE], [LifecycleEvent.ON_CREATE_VIEW],
+     * [LifecycleEvent.ON_ACTIVITY_CREATED], [LifecycleEvent.ON_START],
+     * [LifecycleEvent.ON_RESUME], [LifecycleEvent.ON_PAUSE], [LifecycleEvent.ON_STOP],
+     * [LifecycleEvent.ON_DESTROY_VIEW], [LifecycleEvent.ON_DESTROY], & [LifecycleEvent.ON_DETACH].
+     */
+    var logEvents: Array<LifecycleEvent> = arrayOf(
+        LifecycleEvent.ON_ATTACH,
+        LifecycleEvent.ON_CREATE,
+        LifecycleEvent.ON_CREATE_VIEW,
+        LifecycleEvent.ON_ACTIVITY_CREATED,
+        LifecycleEvent.ON_START,
+        LifecycleEvent.ON_RESUME,
+        LifecycleEvent.ON_PAUSE,
+        LifecycleEvent.ON_STOP,
+        LifecycleEvent.ON_DESTROY_VIEW,
+        LifecycleEvent.ON_DESTROY,
+        LifecycleEvent.ON_DETACH
+    )
+
+    /**
+     * Callback to execute when a lifecycle is logged, override this to change how logging occurs.
+     * If this is null then it will default to logging using `Log.d`.
+     */
+    var logHandler: LogHandler? = null
 
     /**
      * Initializes the [LifecykleLog] with the given [app].
      * Using [app] it will hook into all [Activity] life cycles, and from there the [Fragment]
      * life cycles.
-     *
-     * @param defaultLifecycleEvents An array of lifecycle events to provide logging for, if none
-     * are passed in some defaults are used.
-     * @param logExecution method to execute when a lifecycle is logged, using this a different log
-     * can be used. If nothing is passed in than `Log.d` will be used instead.
      */
-    fun initialize(
-        app: Application,
-        defaultLifecycleEvents: Array<LifecycleEvent> = arrayOf(
-            LifecycleEvent.ON_ATTACH,
-            LifecycleEvent.ON_CREATE,
-            LifecycleEvent.ON_CREATE_VIEW,
-            LifecycleEvent.ON_ACTIVITY_CREATED,
-            LifecycleEvent.ON_START,
-            LifecycleEvent.ON_RESUME,
-            LifecycleEvent.ON_PAUSE,
-            LifecycleEvent.ON_STOP,
-            LifecycleEvent.ON_DESTROY_VIEW,
-            LifecycleEvent.ON_DESTROY,
-            LifecycleEvent.ON_DETACH
-        ),
-        logExecution: ((String, String) -> Unit)? = null
-    ) {
-        logLifecycleEvents = defaultLifecycleEvents
-        log = logExecution
-        setupActivity(app)
-    }
+    fun initialize(app: Application) = setupActivity(app)
 
     private fun setupActivity(app: Application) =
         app.registerActivityLifecycleCallbacks(activityCallbacks)
@@ -187,15 +188,15 @@ object LifecykleLog {
 
     private fun <T : Any> logLifecycle(clazz: T, lifecycleEvent: LifecycleEvent) {
         clazz::class.java.getAnnotation(annotationClass)?.let { annotation ->
-            if (annotation.overrideLifecycleEvents.isNotEmpty()) {
+            if (annotation.overrideLogEvents.isNotEmpty()) {
                 // Overridden the defaults, check if should perform logging
-                if (!annotation.overrideLifecycleEvents.contains(lifecycleEvent)) {
+                if (!annotation.overrideLogEvents.contains(lifecycleEvent)) {
                     // Don't perform logging as this lifecycle event is not wanted
                     return
                 }
             } else {
                 // Check the defaults
-                if (!logLifecycleEvents.contains(lifecycleEvent)) {
+                if (!logEvents.contains(lifecycleEvent)) {
                     // Defaults doesn't contain this event
                     return
                 }
@@ -211,6 +212,8 @@ object LifecykleLog {
     }
 
     private fun executeLog(statement: String, lifecycleEvent: String) {
-        log?.invoke(statement, lifecycleEvent) ?: Log.d("Lifecykle", "$statement ⇀ $lifecycleEvent")
+        logHandler
+            ?.logLifecycleMethod(statement, lifecycleEvent)
+            ?: Log.d("Lifecykle", "$statement ⇀ $lifecycleEvent")
     }
 }
