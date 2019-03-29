@@ -188,9 +188,9 @@ object LifecykleLog {
 
     private fun <T : Any> logLifecycle(clazz: T, lifecycleEvent: LifecycleEvent) {
         clazz::class.java.getAnnotation(annotationClass)?.let { annotation ->
-            if (annotation.overrideLifecycleEvents.isNotEmpty()) {
+            if (annotation.overrideLogEvents.isNotEmpty()) {
                 // Overridden the defaults, check if should perform logging
-                if (!annotation.overrideLifecycleEvents.contains(lifecycleEvent)) {
+                if (!annotation.overrideLogEvents.contains(lifecycleEvent)) {
                     // Don't perform logging as this lifecycle event is not wanted
                     return
                 }

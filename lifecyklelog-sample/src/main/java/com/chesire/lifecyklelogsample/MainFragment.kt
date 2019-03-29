@@ -12,7 +12,7 @@ import com.chesire.lifecyklelog.LogLifecykle
  * [Fragment] to show how to use [LogLifecykle].
  */
 @LogLifecykle(
-    overrideLifecycleEvents = [
+    overrideLogEvents = [
         LifecycleEvent.ON_ACTIVITY_CREATED,
         LifecycleEvent.ON_ATTACH,
         LifecycleEvent.ON_DETACH,
