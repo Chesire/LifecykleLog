@@ -42,9 +42,9 @@ object LifecykleLog {
 
     /**
      * Callback to execute when a lifecycle is logged, override this to change how logging occurs.
-     * By default `Log.d` will be used.
+     * If this is null then it will default to logging using `Log.d`.
      */
-    var logHandler: ((String, String) -> Unit)? = null
+    var logHandler: LogHandler? = null
 
     /**
      * Initializes the [LifecykleLog] with the given [app].
@@ -212,6 +212,8 @@ object LifecykleLog {
     }
 
     private fun executeLog(statement: String, lifecycleEvent: String) {
-        logHandler?.invoke(statement, lifecycleEvent) ?: Log.d("Lifecykle", "$statement ⇀ $lifecycleEvent")
+        logHandler
+            ?.logLifecycleMethod(statement, lifecycleEvent)
+            ?: Log.d("Lifecykle", "$statement ⇀ $lifecycleEvent")
     }
 }
