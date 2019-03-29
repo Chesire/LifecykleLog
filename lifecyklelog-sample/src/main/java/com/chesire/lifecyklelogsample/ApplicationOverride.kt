@@ -12,15 +12,17 @@ import com.chesire.lifecyklelog.LifecykleLog
 class ApplicationOverride : Application() {
     override fun onCreate() {
         super.onCreate()
-        LifecykleLog.initialize(
-            this,
-            defaultLifecycleEvents = arrayOf(
+
+        LifecykleLog.apply {
+            initialize(this@ApplicationOverride)
+            logEvents = arrayOf(
                 LifecycleEvent.ON_CREATE,
                 LifecycleEvent.ON_ATTACH,
                 LifecycleEvent.ON_DESTROY
             )
-        ) { clazz, lifecycleEvent ->
-            Log.i(clazz, lifecycleEvent)
+            logHandler = { clazz, lifecycleEvent ->
+                Log.i(clazz, lifecycleEvent)
+            }
         }
     }
 }
