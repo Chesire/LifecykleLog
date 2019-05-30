@@ -120,4 +120,4 @@ Please read [CONTRIBUTING.md](https://github.com/Chesire/LifecykleLog/blob/maste
 
 ## License
 
-MIT - See [LICENSE](https://github.com/Chesire/LifecykleLog/blob/master/LINCENSE) for more information.
+MIT - See [LICENSE](https://github.com/Chesire/LifecykleLog/blob/master/LICENSE) for more information.
