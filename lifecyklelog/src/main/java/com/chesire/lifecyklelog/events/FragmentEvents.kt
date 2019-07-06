@@ -12,7 +12,7 @@ import com.chesire.lifecyklelog.LifecykleLog
  * Handles callbacks for all of the [Fragment] lifecycle events.
  */
 @Suppress("TooManyFunctions")
-internal val fragmentCallbacks = object : FragmentManager.FragmentLifecycleCallbacks() {
+internal object FragmentEvents : FragmentManager.FragmentLifecycleCallbacks() {
     override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) {
         LifecykleLog.logLifecycle(f, LifecycleEvent.ON_ATTACH)
         super.onFragmentAttached(fm, f, context)

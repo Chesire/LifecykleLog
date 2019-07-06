@@ -11,12 +11,12 @@ import com.chesire.lifecyklelog.LifecykleLog
  * Handles callbacks for all of the [Activity] lifecycle events.
  * When `onActivityCreated` is called, it will register for the fragment lifecycle events.
  */
-internal val activityCallbacks = object : Application.ActivityLifecycleCallbacks {
+internal object ActivityEvents : Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         LifecykleLog.logLifecycle(activity, LifecycleEvent.ON_CREATE)
         if (activity is FragmentActivity) {
             activity.supportFragmentManager.registerFragmentLifecycleCallbacks(
-                fragmentCallbacks,
+                FragmentEvents,
                 true
             )
         }

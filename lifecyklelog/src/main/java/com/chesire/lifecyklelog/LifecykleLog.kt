@@ -5,7 +5,7 @@ import android.app.Application
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.chesire.lifecyklelog.LifecykleLog.initialize
-import com.chesire.lifecyklelog.events.activityCallbacks
+import com.chesire.lifecyklelog.events.ActivityEvents
 
 /**
  * A container to execute logging on Android lifecycle events.
@@ -47,7 +47,7 @@ object LifecykleLog {
      * Using [app] it will hook into all [Activity] life cycles, and from there the [Fragment]
      * life cycles.
      */
-    fun initialize(app: Application) = app.registerActivityLifecycleCallbacks(activityCallbacks)
+    fun initialize(app: Application) = app.registerActivityLifecycleCallbacks(ActivityEvents)
 
     /**
      * Checks if the [lifecycleEvent] should be logged, and if it should it will send it through the
