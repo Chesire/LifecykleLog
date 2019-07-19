@@ -6,7 +6,6 @@
 [![codecov](https://codecov.io/gh/Chesire/LifecykleLog/branch/master/graph/badge.svg)](https://codecov.io/gh/Chesire/LifecykleLog)
 [![Download](https://api.bintray.com/packages/chesire/LifecykleLog/lifecyklelog/images/download.svg) ](https://bintray.com/chesire/LifecykleLog/lifecyklelog/_latestVersion)
 
-
 ## Installation
 
 Gradle - add the following line to your `build.gradle`
