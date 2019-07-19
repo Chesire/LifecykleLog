@@ -12,7 +12,7 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC14"
+    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC16"
 }
 
 allprojects {
@@ -27,7 +27,7 @@ task clean(type: Delete) {
 }
 
 detekt {
-    toolVersion = "1.0.0-RC14"
+    toolVersion = "1.0.0-RC16"
     config = files("detekt.yml")
     input = files(
             "lifecyklelog/src/main/java",
