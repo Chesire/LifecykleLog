@@ -3,6 +3,7 @@
 > Library to easily log out Android lifecycle methods for Activities and Fragments.
 
 [![Build Status](https://app.bitrise.io/app/fafeb502b668e0c5/status.svg?token=AqJ-aneNiSWPCyEgIdaqpA&branch=master)](https://app.bitrise.io/app/fafeb502b668e0c5)
+[![codecov](https://codecov.io/gh/Chesire/LifecykleLog/branch/master/graph/badge.svg)](https://codecov.io/gh/Chesire/LifecykleLog)
 [![Download](https://api.bintray.com/packages/chesire/LifecykleLog/lifecyklelog/images/download.svg) ](https://bintray.com/chesire/LifecykleLog/lifecyklelog/_latestVersion)
 
 ## Installation
