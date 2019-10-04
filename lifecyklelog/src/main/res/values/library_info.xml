@@ -3,7 +3,7 @@
     <string name="define_Lifecyklelog" translatable="false" ></string>
     <string name="library_Lifecyklelog_author" translatable="false" >Chesire</string>
     <string name="library_Lifecyklelog_authorWebsite" translatable="false" >https://github.com/Chesire</string>
-    <string name="library_Lifecyklelog_libraryName" translatable="false" >Lifecyklelog</string>
+    <string name="library_Lifecyklelog_libraryName" translatable="false" >LifecykleLog</string>
     <string name="library_Lifecyklelog_libraryDescription" translatable="false" >Library to easily log out Android lifecycle methods for Activities and Fragments.</string>
     <string name="library_Lifecyklelog_libraryWebsite" translatable="false" >https://github.com/Chesire/LifecykleLog</string>
     <string name="library_Lifecyklelog_licenseId" translatable="false" >mit</string>
