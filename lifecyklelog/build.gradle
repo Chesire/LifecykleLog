@@ -5,19 +5,6 @@ apply from: 'bintray.gradle'
 apply from: '../jacoco.gradle'
 apply from: '../ktlint.gradle'
 
-def getVersionTag = {
-    def stdout
-    stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'describe', '--tags'
-        standardOutput = stdout
-    }
-    def longTag = stdout.toString().trim()
-
-    return longTag.substring(longTag.indexOf('/') + 1, longTag.indexOf('-'))
-
-}
-
 android {
     compileSdkVersion 28
     defaultConfig.minSdkVersion 14
