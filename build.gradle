@@ -50,13 +50,12 @@ detekt {
 }
 
 ext.getVersionTag = {
-        def stdout
-        stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'describe', '--tags'
-            standardOutput = stdout
-        }
-        def longTag = stdout.toString().trim()
-
-        return longTag.substring(longTag.indexOf('/') + 1, longTag.indexOf('-'))
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags', '--always'
+        standardOutput = stdout
     }
+    def longTag = stdout.toString().trim()
+
+    return longTag.substring(longTag.indexOf('/') + 1, longTag.indexOf('-'))
+}
