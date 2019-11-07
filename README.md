@@ -109,14 +109,6 @@ This can be useful if ProGuard strips out the class names and you really need to
 _For more examples and usage, please refer to the [sample](https://github.com/Chesire/LifecykleLog/tree/master/lifecyklelog-sample)._
 
 
-## Release History
-
-* 2.0.0
-	* Refactor to be easier to configure, stripping the initialize method down to just taking the Application object.
-* 1.0.0
-    * Initial version
-
-
 ## Contributing
 Please read [CONTRIBUTING.md](https://github.com/Chesire/LifecykleLog/blob/master/CONTRIBUTING.md) for details on how to contribute.
 
