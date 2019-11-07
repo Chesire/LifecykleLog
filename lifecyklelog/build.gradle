@@ -8,6 +8,10 @@ apply from: '../ktlint.gradle'
 android {
     compileSdkVersion 28
     defaultConfig.minSdkVersion 14
+
+    defaultConfig {
+        resValue "string", "library_Lifecyklelog_libraryVersion", "${getVersionTag()}"
+    }
 }
 
 dependencies {
