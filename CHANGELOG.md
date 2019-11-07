@@ -17,4 +17,4 @@ _19-03-29_
 ## Version 1.0.0
 _19-03-24_
 
-* Initial version
+* Initial version.
