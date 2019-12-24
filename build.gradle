@@ -35,8 +35,6 @@ detekt {
             "lifecyklelog/src/main/java",
             "lifecyklelog-sample/src/main/java"
     )
-    filters = ".*/resources/.*,.*/build/.*"
-
     reports {
         xml {
             enabled = true
