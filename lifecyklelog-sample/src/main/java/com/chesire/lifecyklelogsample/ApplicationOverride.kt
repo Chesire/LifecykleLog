@@ -22,7 +22,7 @@ class ApplicationOverride : Application() {
                 LifecycleEvent.ON_DESTROY
             )
             logHandler = LogHandler { clazz, lifecycleEvent, bundle ->
-                Log.i(clazz, "$lifecycleEvent - $bundle")
+                Log.i(clazz, "$lifecycleEvent ${bundle?.let { "- $it" } ?: ""}")
             }
         }
     }
