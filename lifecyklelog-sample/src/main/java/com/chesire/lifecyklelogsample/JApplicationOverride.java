@@ -2,7 +2,10 @@ package com.chesire.lifecyklelogsample;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.os.Bundle;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.chesire.lifecyklelog.LifecycleEvent;
 import com.chesire.lifecyklelog.LifecykleLog;
@@ -26,7 +29,7 @@ public class JApplicationOverride extends Application {
         LifecykleLog.INSTANCE.setLogEvents(events);
         LifecykleLog.INSTANCE.setLogHandler(new LogHandler() {
             @Override
-            public void logLifecycleMethod(String clazz, String lifecycleEvent) {
+            public void logLifecycleMethod(String clazz, String lifecycleEvent, @Nullable Bundle bundle) {
                 Log.i(clazz, lifecycleEvent);
             }
         });

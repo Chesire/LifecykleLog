@@ -36,7 +36,7 @@ class LifecykleLogTests {
 
         LifecykleLog.logLifecycle(unannotatedClass, LifecycleEvent.ON_ATTACH)
 
-        verify(exactly = 0) { mockHandler.logLifecycleMethod(any(), any()) }
+        verify(exactly = 0) { mockHandler.logLifecycleMethod(any(), any(), any()) }
     }
 
     @Test
@@ -47,14 +47,14 @@ class LifecykleLogTests {
 
         LifecykleLog.logLifecycle(annotatedClass, LifecycleEvent.ON_SAVE_INSTANCE_STATE)
 
-        verify(exactly = 0) { mockHandler.logLifecycleMethod(any(), any()) }
+        verify(exactly = 0) { mockHandler.logLifecycleMethod(any(), any(), any()) }
     }
 
     @Test
     fun `logLifecycle with overridden default logEvents only executes for that event`() {
         val annotatedClass = AnnotatedClass()
         val mockHandler = mockk<LogHandler> {
-            every { logLifecycleMethod(any(), any()) } just Runs
+            every { logLifecycleMethod(any(), any(), any()) } just Runs
         }
         LifecykleLog.logHandler = mockHandler
         LifecykleLog.logEvents = arrayOf(LifecycleEvent.ON_SAVE_INSTANCE_STATE)
@@ -64,14 +64,14 @@ class LifecykleLogTests {
         LifecykleLog.logLifecycle(annotatedClass, LifecycleEvent.ON_SAVE_INSTANCE_STATE)
         LifecykleLog.logLifecycle(annotatedClass, LifecycleEvent.ON_DESTROY)
 
-        verify(exactly = 1) { mockHandler.logLifecycleMethod(any(), any()) }
+        verify(exactly = 1) { mockHandler.logLifecycleMethod(any(), any(), any()) }
     }
 
     @Test
     fun `logLifecycle with annotation overrideLogEvents only executes for that event`() {
         val annotatedClass = AnnotatedClassWithLifecycleOverride()
         val mockHandler = mockk<LogHandler> {
-            every { logLifecycleMethod(any(), any()) } just Runs
+            every { logLifecycleMethod(any(), any(), any()) } just Runs
         }
         LifecykleLog.logHandler = mockHandler
 
@@ -81,7 +81,11 @@ class LifecykleLogTests {
         LifecykleLog.logLifecycle(annotatedClass, LifecycleEvent.ON_DESTROY)
 
         verify(exactly = 1) {
-            mockHandler.logLifecycleMethod(any(), LifecycleEvent.ON_SAVE_INSTANCE_STATE.eventName)
+            mockHandler.logLifecycleMethod(
+                any(),
+                LifecycleEvent.ON_SAVE_INSTANCE_STATE.eventName,
+                any()
+            )
         }
     }
 
@@ -89,7 +93,7 @@ class LifecykleLogTests {
     fun `logLifecycle with defaults and valid logEvent executes on handler`() {
         val annotatedClass = AnnotatedClass()
         val mockHandler = mockk<LogHandler> {
-            every { logLifecycleMethod(any(), any()) } just Runs
+            every { logLifecycleMethod(any(), any(), any()) } just Runs
         }
         LifecykleLog.logHandler = mockHandler
 
@@ -98,7 +102,8 @@ class LifecykleLogTests {
         verify(exactly = 1) {
             mockHandler.logLifecycleMethod(
                 AnnotatedClass::class.java.simpleName,
-                LifecycleEvent.ON_ATTACH.eventName
+                LifecycleEvent.ON_ATTACH.eventName,
+                any()
             )
         }
     }
@@ -107,7 +112,7 @@ class LifecykleLogTests {
     fun `logLifecycle with annotation name override, uses custom name`() {
         val annotatedClass = AnnotatedClassWithNameOverride()
         val mockHandler = mockk<LogHandler> {
-            every { logLifecycleMethod(any(), any()) } just Runs
+            every { logLifecycleMethod(any(), any(), any()) } just Runs
         }
         LifecykleLog.logHandler = mockHandler
 
@@ -116,7 +121,8 @@ class LifecykleLogTests {
         verify(exactly = 1) {
             mockHandler.logLifecycleMethod(
                 "Overridden className",
-                LifecycleEvent.ON_ATTACH.eventName
+                LifecycleEvent.ON_ATTACH.eventName,
+                any()
             )
         }
     }

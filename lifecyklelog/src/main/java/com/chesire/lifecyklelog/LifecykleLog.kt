@@ -2,6 +2,7 @@ package com.chesire.lifecyklelog
 
 import android.app.Activity
 import android.app.Application
+import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.chesire.lifecyklelog.LifecykleLog.initialize
@@ -53,7 +54,11 @@ object LifecykleLog {
      * Checks if the [lifecycleEvent] should be logged, and if it should it will send it through the
      * provided [logHandler].
      */
-    internal fun <T : Any> logLifecycle(clazz: T, lifecycleEvent: LifecycleEvent) {
+    internal fun <T : Any> logLifecycle(
+        clazz: T,
+        lifecycleEvent: LifecycleEvent,
+        bundle: Bundle? = null
+    ) {
         clazz::class.java.getAnnotation(annotationClass)?.let { annotation ->
             if (!shouldLog(lifecycleEvent, annotation.overrideLogEvents)) {
                 return
@@ -64,7 +69,7 @@ object LifecykleLog {
             } else {
                 clazz::class.java.simpleName
             }
-            executeLog(statement, lifecycleEvent.eventName)
+            executeLog(statement, lifecycleEvent.eventName, bundle)
         }
     }
 
@@ -89,9 +94,9 @@ object LifecykleLog {
         return true
     }
 
-    private fun executeLog(statement: String, lifecycleEvent: String) {
+    private fun executeLog(statement: String, lifecycleEvent: String, bundle: Bundle?) {
         logHandler
-            ?.logLifecycleMethod(statement, lifecycleEvent)
+            ?.logLifecycleMethod(statement, lifecycleEvent, bundle)
             ?: Log.d("Lifecykle", "$statement ⇀ $lifecycleEvent")
     }
 }

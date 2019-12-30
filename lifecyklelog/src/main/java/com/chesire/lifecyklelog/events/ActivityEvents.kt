@@ -13,7 +13,7 @@ import com.chesire.lifecyklelog.LifecykleLog
  */
 internal object ActivityEvents : Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        LifecykleLog.logLifecycle(activity, LifecycleEvent.ON_CREATE)
+        LifecykleLog.logLifecycle(activity, LifecycleEvent.ON_CREATE, savedInstanceState)
         if (activity is FragmentActivity) {
             activity.supportFragmentManager.registerFragmentLifecycleCallbacks(
                 FragmentEvents,
@@ -43,6 +43,6 @@ internal object ActivityEvents : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
-        LifecykleLog.logLifecycle(activity, LifecycleEvent.ON_SAVE_INSTANCE_STATE)
+        LifecykleLog.logLifecycle(activity, LifecycleEvent.ON_SAVE_INSTANCE_STATE, outState)
     }
 }

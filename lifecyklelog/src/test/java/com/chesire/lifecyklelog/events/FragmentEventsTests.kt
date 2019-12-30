@@ -1,5 +1,6 @@
 package com.chesire.lifecyklelog.events
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.chesire.lifecyklelog.LifecycleEvent
 import com.chesire.lifecyklelog.LifecykleLog
@@ -31,27 +32,69 @@ class FragmentEventsTests {
     fun `onFragmentCreated logs the fragment with ON_CREATE lifecycle event`() {
         val mockFragment = mockk<Fragment>()
 
-        FragmentEvents.onFragmentCreated(mockk(), mockFragment, mockk())
+        FragmentEvents.onFragmentCreated(mockk(), mockFragment, null)
 
         verify { LifecykleLog.logLifecycle(mockFragment, LifecycleEvent.ON_CREATE) }
+    }
+
+    @Test
+    fun `onFragmentCreated logs the fragment with ON_CREATE lifecycle event and bundle`() {
+        val mockBundle = mockk<Bundle>()
+        val mockFragment = mockk<Fragment>()
+
+        FragmentEvents.onFragmentCreated(mockk(), mockFragment, mockBundle)
+
+        verify { LifecykleLog.logLifecycle(mockFragment, LifecycleEvent.ON_CREATE, mockBundle) }
     }
 
     @Test
     fun `onFragmentViewCreated logs the fragment with ON_CREATE_VIEW lifecycle event`() {
         val mockFragment = mockk<Fragment>()
 
-        FragmentEvents.onFragmentViewCreated(mockk(), mockFragment, mockk(), mockk())
+        FragmentEvents.onFragmentViewCreated(mockk(), mockFragment, mockk(), null)
 
         verify { LifecykleLog.logLifecycle(mockFragment, LifecycleEvent.ON_CREATE_VIEW) }
+    }
+
+    @Test
+    fun `onFragmentViewCreated logs the fragment with ON_CREATE_VIEW lifecycle event and bundle`() {
+        val mockBundle = mockk<Bundle>()
+        val mockFragment = mockk<Fragment>()
+
+        FragmentEvents.onFragmentViewCreated(mockk(), mockFragment, mockk(), mockBundle)
+
+        verify {
+            LifecykleLog.logLifecycle(
+                mockFragment,
+                LifecycleEvent.ON_CREATE_VIEW,
+                mockBundle
+            )
+        }
     }
 
     @Test
     fun `onFragmentActivityCreated logs the fragment with ON_ACTIVITY_CREATED lifecycle event`() {
         val mockFragment = mockk<Fragment>()
 
-        FragmentEvents.onFragmentActivityCreated(mockk(), mockFragment, mockk())
+        FragmentEvents.onFragmentActivityCreated(mockk(), mockFragment, null)
 
         verify { LifecykleLog.logLifecycle(mockFragment, LifecycleEvent.ON_ACTIVITY_CREATED) }
+    }
+
+    @Test
+    fun `onFragmentActivityCreated logs the fragment with ON_ACTIVITY_CREATED lifecycle event and bundle`() {
+        val mockBundle = mockk<Bundle>()
+        val mockFragment = mockk<Fragment>()
+
+        FragmentEvents.onFragmentActivityCreated(mockk(), mockFragment, mockBundle)
+
+        verify {
+            LifecykleLog.logLifecycle(
+                mockFragment,
+                LifecycleEvent.ON_ACTIVITY_CREATED,
+                mockBundle
+            )
+        }
     }
 
     @Test
@@ -130,17 +173,40 @@ class FragmentEventsTests {
     fun `onFragmentPreCreated logs the fragment with ON_PRE_CREATED lifecycle event`() {
         val mockFragment = mockk<Fragment>()
 
-        FragmentEvents.onFragmentPreCreated(mockk(), mockFragment, mockk())
+        FragmentEvents.onFragmentPreCreated(mockk(), mockFragment, null)
 
         verify { LifecykleLog.logLifecycle(mockFragment, LifecycleEvent.ON_PRE_CREATED) }
     }
 
     @Test
-    fun `onFragmentSaveInstanceState logs the fragment with ON_SAVE_INSTANCE_STATE lifecycle event`() {
+    fun `onFragmentPreCreated logs the fragment with ON_PRE_CREATED lifecycle event and bundle`() {
+        val mockBundle = mockk<Bundle>()
         val mockFragment = mockk<Fragment>()
 
-        FragmentEvents.onFragmentSaveInstanceState(mockk(), mockFragment, mockk())
+        FragmentEvents.onFragmentPreCreated(mockk(), mockFragment, mockBundle)
 
-        verify { LifecykleLog.logLifecycle(mockFragment, LifecycleEvent.ON_SAVE_INSTANCE_STATE) }
+        verify {
+            LifecykleLog.logLifecycle(
+                mockFragment,
+                LifecycleEvent.ON_PRE_CREATED,
+                mockBundle
+            )
+        }
+    }
+
+    @Test
+    fun `onFragmentSaveInstanceState logs the fragment with ON_SAVE_INSTANCE_STATE lifecycle event and bundle`() {
+        val mockBundle = mockk<Bundle>()
+        val mockFragment = mockk<Fragment>()
+
+        FragmentEvents.onFragmentSaveInstanceState(mockk(), mockFragment, mockBundle)
+
+        verify {
+            LifecykleLog.logLifecycle(
+                mockFragment,
+                LifecycleEvent.ON_SAVE_INSTANCE_STATE,
+                mockBundle
+            )
+        }
     }
 }
