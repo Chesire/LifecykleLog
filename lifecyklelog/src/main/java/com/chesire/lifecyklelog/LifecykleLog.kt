@@ -55,18 +55,8 @@ object LifecykleLog {
      */
     internal fun <T : Any> logLifecycle(clazz: T, lifecycleEvent: LifecycleEvent) {
         clazz::class.java.getAnnotation(annotationClass)?.let { annotation ->
-            if (annotation.overrideLogEvents.isNotEmpty()) {
-                // Overridden the defaults, check if should perform logging
-                if (!annotation.overrideLogEvents.contains(lifecycleEvent)) {
-                    // Don't perform logging as this lifecycle event is not wanted
-                    return
-                }
-            } else {
-                // Check the defaults
-                if (!logEvents.contains(lifecycleEvent)) {
-                    // Defaults doesn't contain this event
-                    return
-                }
+            if (!shouldLog(lifecycleEvent, annotation.overrideLogEvents)) {
+                return
             }
 
             val statement = if (annotation.className.isNotEmpty()) {
@@ -76,6 +66,27 @@ object LifecykleLog {
             }
             executeLog(statement, lifecycleEvent.eventName)
         }
+    }
+
+    private fun shouldLog(
+        lifecycleEvent: LifecycleEvent,
+        overrideEvents: Array<LifecycleEvent>
+    ): Boolean {
+        if (overrideEvents.isNotEmpty()) {
+            // Overridden the defaults, check if should perform logging
+            if (!overrideEvents.contains(lifecycleEvent)) {
+                // Don't perform logging as this lifecycle event is not wanted
+                return false
+            }
+        } else {
+            // Check the defaults
+            if (!logEvents.contains(lifecycleEvent)) {
+                // Defaults doesn't contain this event
+                return false
+            }
+        }
+
+        return true
     }
 
     private fun executeLog(statement: String, lifecycleEvent: String) {
