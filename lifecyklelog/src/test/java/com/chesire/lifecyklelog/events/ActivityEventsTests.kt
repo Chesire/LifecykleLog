@@ -1,6 +1,7 @@
 package com.chesire.lifecyklelog.events
 
 import android.app.Activity
+import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.chesire.lifecyklelog.LifecycleEvent
@@ -44,6 +45,16 @@ class ActivityEventsTests {
         ActivityEvents.onActivityCreated(mockActivity, null)
 
         verify { LifecykleLog.logLifecycle(mockActivity, LifecycleEvent.ON_CREATE) }
+    }
+
+    @Test
+    fun `onActivityCreated logs the activity with ON_CREATE lifecycle event and bundle`() {
+        val mockBundle = mockk<Bundle>()
+        val mockActivity = mockk<Activity>()
+
+        ActivityEvents.onActivityCreated(mockActivity, mockBundle)
+
+        verify { LifecykleLog.logLifecycle(mockActivity, LifecycleEvent.ON_CREATE, mockBundle) }
     }
 
     @Test
@@ -98,5 +109,21 @@ class ActivityEventsTests {
         ActivityEvents.onActivitySaveInstanceState(mockActivity, null)
 
         verify { LifecykleLog.logLifecycle(mockActivity, LifecycleEvent.ON_SAVE_INSTANCE_STATE) }
+    }
+
+    @Test
+    fun `onActivitySaveInstanceState logs the activity with ON_SAVE_INSTANCE_STATE lifecycle event with bundle`() {
+        val mockBundle = mockk<Bundle>()
+        val mockActivity = mockk<Activity>()
+
+        ActivityEvents.onActivitySaveInstanceState(mockActivity, mockBundle)
+
+        verify {
+            LifecykleLog.logLifecycle(
+                mockActivity,
+                LifecycleEvent.ON_SAVE_INSTANCE_STATE,
+                mockBundle
+            )
+        }
     }
 }

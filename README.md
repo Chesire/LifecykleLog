@@ -62,7 +62,7 @@ D/Lifecykle: MainFragment ⇀ onStop
 By default LogLifecykle will output to `Log.d` with a tag of `Lifecykle`, to override this behaviour pass an implementation into the `LifecykleLog.logHandler`.
 
 ```kotlin
-LifecykleLog.logHandler = LogHandler { clazz, lifecycleEvent ->
+LifecykleLog.logHandler = LogHandler { clazz, lifecycleEvent, bundle ->
     Log.e(clazz, lifecycleEvent) 
 }
 ```
@@ -70,8 +70,8 @@ LifecykleLog.logHandler = LogHandler { clazz, lifecycleEvent ->
 This can allow you to use other logging frameworks such as Timber.
 
 ```kotlin
-LifecykleLog.logHandler = LogHandler { clazz, lifecycleEvent ->
-    Timber.i("$clazz -> $lifecycleEvent")
+LifecykleLog.logHandler = LogHandler { clazz, lifecycleEvent, bundle ->
+    Timber.i("$clazz -> $lifecycleEvent - $bundle")
 }
 ```
 
@@ -105,6 +105,10 @@ class MainFragment : Fragment() {
 ```
 
 This can be useful if ProGuard strips out the class names and you really need to see them in the logs. By default the name will be pulled from the objects `class.java.simpleName`.
+
+### Bundle
+For lifecycle methods which pass a bundle along, it will automatically be pushed through the interface. In instances where there is no bundle, or it is empty, then the value will simply be "null".  
+
 
 _For more examples and usage, please refer to the [sample](https://github.com/Chesire/LifecykleLog/tree/master/lifecyklelog-sample)._
 

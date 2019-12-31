@@ -23,7 +23,7 @@ internal object FragmentEvents : FragmentManager.FragmentLifecycleCallbacks() {
         f: Fragment,
         savedInstanceState: Bundle?
     ) {
-        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_CREATE)
+        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_CREATE, savedInstanceState)
         super.onFragmentCreated(fm, f, savedInstanceState)
     }
 
@@ -33,7 +33,7 @@ internal object FragmentEvents : FragmentManager.FragmentLifecycleCallbacks() {
         v: View,
         savedInstanceState: Bundle?
     ) {
-        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_CREATE_VIEW)
+        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_CREATE_VIEW, savedInstanceState)
         super.onFragmentViewCreated(fm, f, v, savedInstanceState)
     }
 
@@ -42,7 +42,7 @@ internal object FragmentEvents : FragmentManager.FragmentLifecycleCallbacks() {
         f: Fragment,
         savedInstanceState: Bundle?
     ) {
-        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_ACTIVITY_CREATED)
+        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_ACTIVITY_CREATED, savedInstanceState)
         super.onFragmentActivityCreated(fm, f, savedInstanceState)
     }
 
@@ -91,7 +91,7 @@ internal object FragmentEvents : FragmentManager.FragmentLifecycleCallbacks() {
         f: Fragment,
         savedInstanceState: Bundle?
     ) {
-        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_PRE_CREATED)
+        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_PRE_CREATED, savedInstanceState)
         super.onFragmentPreCreated(fm, f, savedInstanceState)
     }
 
@@ -100,7 +100,7 @@ internal object FragmentEvents : FragmentManager.FragmentLifecycleCallbacks() {
         f: Fragment,
         outState: Bundle
     ) {
-        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_SAVE_INSTANCE_STATE)
+        LifecykleLog.logLifecycle(f, LifecycleEvent.ON_SAVE_INSTANCE_STATE, outState)
         super.onFragmentSaveInstanceState(fm, f, outState)
     }
 }
