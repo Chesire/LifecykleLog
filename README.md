@@ -118,5 +118,4 @@ Please read [CONTRIBUTING.md](https://github.com/Chesire/LifecykleLog/blob/maste
 
 
 ## License
-
-MIT - See [LICENSE](https://github.com/Chesire/LifecykleLog/blob/master/LICENSE) for more information.
+Apache 2.0 - See [LICENSE](https://github.com/Chesire/LifecykleLog/blob/master/LICENSE) for more information.
