@@ -15,6 +15,7 @@ buildscript {
 
 plugins {
     id "io.gitlab.arturbosch.detekt" version "1.3.1"
+    id "org.jlleitschuh.gradle.ktlint" version "9.2.1"
 }
 
 allprojects {
@@ -22,6 +23,10 @@ allprojects {
         google()
         jcenter()
     }
+}
+
+subprojects {
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
 }
 
 task clean(type: Delete) {
