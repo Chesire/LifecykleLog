@@ -73,6 +73,7 @@ object LifecykleLog {
         }
     }
 
+    @Suppress("ReturnCount")
     private fun shouldLog(
         lifecycleEvent: LifecycleEvent,
         overrideEvents: Array<LifecycleEvent>
