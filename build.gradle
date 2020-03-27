@@ -14,7 +14,7 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.6.0"
+    id "io.gitlab.arturbosch.detekt" version "1.7.1"
     id "org.jlleitschuh.gradle.ktlint" version "9.2.1"
 }
 
@@ -34,7 +34,7 @@ task clean(type: Delete) {
 }
 
 detekt {
-    toolVersion = "1.6.0"
+    toolVersion = "1.7.1"
     config = files("detekt.yml")
     input = files(
             "lifecyklelog/src/main/java",
