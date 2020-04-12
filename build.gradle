@@ -34,7 +34,6 @@ task clean(type: Delete) {
 }
 
 detekt {
-    toolVersion = "1.7.1"
     config = files("detekt.yml")
     input = files(
             "lifecyklelog/src/main/java",
