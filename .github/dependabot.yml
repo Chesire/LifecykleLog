@@ -1,0 +1,10 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+    time: '09:00'
+  open-pull-requests-limit: 30
+  assignees:
+  - Chesire
