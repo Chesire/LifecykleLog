@@ -6,7 +6,6 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-LifecykleLog-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7752)
 [![Build Status](https://app.bitrise.io/app/fafeb502b668e0c5/status.svg?token=AqJ-aneNiSWPCyEgIdaqpA&branch=master)](https://app.bitrise.io/app/fafeb502b668e0c5)
 [![codecov](https://codecov.io/gh/Chesire/LifecykleLog/branch/master/graph/badge.svg)](https://codecov.io/gh/Chesire/LifecykleLog)
-[![codebeat badge](https://codebeat.co/badges/c3610c4c-0f19-4fb0-80bf-7853bb2060bd)](https://codebeat.co/projects/github-com-chesire-lifecyklelog-master)
 
 
 ## Installation
