@@ -42,11 +42,11 @@ detekt {
     reports {
         xml {
             enabled = true
-            destination = file("lifecyklelog/build/reports/detekt/detekt.xml")
+            destination = file("build/reports/detekt/detekt.xml")
         }
         html {
             enabled = true
-            destination = file("lifecyklelog/build/reports/detekt/detekt.html")
+            destination = file("build/reports/detekt/detekt.html")
         }
     }
 }
