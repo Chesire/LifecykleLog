@@ -58,7 +58,7 @@ jobs:
         path: build/reports/
 
   danger:
-    needs: analyze
+    needs: [test, analyze]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
