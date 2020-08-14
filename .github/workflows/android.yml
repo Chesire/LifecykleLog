@@ -24,12 +24,12 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: tests
-        path: app/build/reports/
+        path: lifecyklelog/build/reports/
     - name: upload test xml
       uses: actions/upload-artifact@v2
       with:
         name: test_xml
-        path: app/build/test-results/
+        path: lifecyklelog/build/test-results/
 
   analyze:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: lint
-        path: app/build/reports/
+        path: lifecyklelog/build/reports/
     - name: run detekt
       run: ./gradlew detekt
     - name: upload detekt results
@@ -80,7 +80,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: lint
-        path: app/build/reports/
+        path: lifecyklelog/build/reports/
     - name: download detekt results
       uses: actions/download-artifact@v2
       with:
@@ -90,7 +90,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: test_xml
-        path: app/build/test-results/
+        path: lifecyklelog/build/test-results/
     - uses: MeilCli/danger-action@v5.0.0
       if: github.event_name == 'pull_request'
       with:
