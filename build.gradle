@@ -67,5 +67,5 @@ ext.getVersionTag = {
 }
 
 ext {
-    lintrules_version = "1.2.0"
+    lintrules_version = "1.2.2"
 }
