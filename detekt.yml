@@ -308,6 +308,8 @@ naming:
   MemberNameEqualsClassName:
     active: false
     ignoreOverridden: true
+  NonBooleanPropertyPrefixedWithIs:
+    active: true
   ObjectPropertyNaming:
     active: true
     excludes: "**/test/**,**/androidTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt"
@@ -525,12 +527,16 @@ style:
   UnusedPrivateMember:
     active: true
     allowedNames: "(_|ignored|expected|serialVersionUID)"
+  UseCheckNotNull:
+    active: true
   UseCheckOrError:
     active: true
   UseDataClass:
     active: true
     excludeAnnotatedClasses: ""
   UseRequire:
+    active: true
+  UseRequireNotNull:
     active: true
   UselessCallOnNotNull:
     active: true
