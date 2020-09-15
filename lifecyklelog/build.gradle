@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from: 'bintray.gradle'
 apply from: '../jacoco.gradle'
 
 android {
@@ -22,3 +21,28 @@ dependencies {
     testImplementation 'io.mockk:mockk:1.10.0'
     testImplementation 'junit:junit:4.13'
 }
+
+ext {
+    bintrayRepo = 'LifecykleLog'
+    bintrayName = 'lifecyklelog'
+
+    libraryName = 'lifecyklelog'
+
+    publishedGroupId = 'com.chesire'
+    artifact = 'lifecyklelog'
+    libraryVersion = '0.0.0'
+
+    libraryDescription = 'Android library for logging out Activity and Fragment lifecycle methods.'
+    siteUrl = 'https://chesire.github.io/LifecykleLog/'
+    gitUrl = 'https://github.com/Chesire/LifecykleLog.git'
+    developerId = 'chesire'
+    developerName = 'chesire'
+    developerEmail = 'troy.rijkaard@chesire.dev'
+    ghRepo = 'chesire/LifecykleLog'
+    ghReleaseNotesFile = 'README.md'
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: 'publish.gradle'
