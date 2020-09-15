@@ -1,3 +1,4 @@
+@file:Suppress("UndocumentedPublicClass")
 package com.chesire.lifecyklelog
 
 import android.os.Bundle
