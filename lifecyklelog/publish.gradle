@@ -1,0 +1,121 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+group = publishedGroupId
+
+if (project.hasProperty("android")) {
+    // Android libraries
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    task javadoc(type: Javadoc) {
+        excludes = ['**/*.kt']
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+} else {
+    // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                groupId publishedGroupId
+                artifactId artifact
+
+                // Add your description here
+                name libraryName
+                description libraryDescription
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name licenseName
+                        url licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    if (project.hasProperty('bintrayUser')) {
+        user = findProperty('bintrayUser')
+    }
+    if (project.hasProperty('bintrayKey')) {
+        key = findProperty('bintrayKey')
+    }
+    if (project.hasProperty('publishVersion')) {
+        version = findProperty('publishVersion')
+    }
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        githubRepo = ghRepo
+        githubReleaseNotesFile = ghReleaseNotesFile
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+            }
+        }
+    }
+}
+
+task deploy(group: "publishing") {
+    doLast {
+        if (!project.hasProperty('bintrayUser')) {
+            throw new MissingPropertyException("bintrayUser must be passed in")
+        }
+        if (!project.hasProperty('bintrayKey')) {
+            throw new MissingPropertyException("bintrayKey must be passed in")
+        }
+        if (!project.hasProperty('publishVersion')) {
+            throw new MissingPropertyException("publishVersion must be passed in")
+        }
+    }
+}
+
+deploy.finalizedBy install
+install.finalizedBy bintrayUpload
