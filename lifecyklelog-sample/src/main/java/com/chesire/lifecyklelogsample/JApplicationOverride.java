@@ -11,6 +11,8 @@ import com.chesire.lifecyklelog.LifecycleEvent;
 import com.chesire.lifecyklelog.LifecykleLog;
 import com.chesire.lifecyklelog.LogHandler;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * {@link Application} class to show how to use {@link LifecykleLog} in Java.
  */
@@ -29,7 +31,7 @@ public class JApplicationOverride extends Application {
         LifecykleLog.INSTANCE.setLogEvents(events);
         LifecykleLog.INSTANCE.setLogHandler(new LogHandler() {
             @Override
-            public void logLifecycleMethod(String clazz, String lifecycleEvent, @Nullable Bundle bundle) {
+            public void logLifecycleMethod(@NotNull String clazz, @NotNull String lifecycleEvent, @Nullable Bundle bundle) {
                 Log.i(clazz, lifecycleEvent);
             }
         });
