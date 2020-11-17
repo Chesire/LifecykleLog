@@ -96,7 +96,7 @@ jobs:
       with:
         name: test_xml
         path: lifecyklelog/build/test-results/
-    - uses: MeilCli/danger-action@v5.0.0
+    - uses: MeilCli/danger-action@v5.0.1
       if: github.event_name == 'pull_request'
       with:
         plugins_file: 'Gemfile'
