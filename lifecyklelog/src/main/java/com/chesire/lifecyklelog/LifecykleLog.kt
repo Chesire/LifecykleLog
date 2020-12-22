@@ -44,6 +44,14 @@ object LifecykleLog {
     var logHandler: LogHandler? = null
 
     /**
+     * Sets a flag indicating if the annotation is required on an [Activity] or [Fragment] to log
+     * the lifecycle events for them. Setting this to false will log out every lifecycle event in
+     * [logEvents] for every [Activity] and [Fragment] in the application.
+     * If not overridden then will use the default of true.
+     */
+    var requireAnnotation: Boolean = true
+
+    /**
      * Initializes the [LifecykleLog] with the given [app].
      * Using [app] it will hook into all [Activity] life cycles, and from there the [Fragment]
      * life cycles.
@@ -59,17 +67,29 @@ object LifecykleLog {
         lifecycleEvent: LifecycleEvent,
         bundle: Bundle? = null
     ) {
-        clazz::class.java.getAnnotation(annotationClass)?.let { annotation ->
-            if (!shouldLog(lifecycleEvent, annotation.overrideLogEvents)) {
-                return
-            }
+        val annotation = clazz::class.java.getAnnotation(annotationClass)
+        val shouldExecuteLog = if (!requireAnnotation) {
+            shouldLog(lifecycleEvent, emptyArray())
+        } else if (annotation != null) {
+            shouldLog(lifecycleEvent, annotation.overrideLogEvents)
+        } else {
+            false
+        }
 
-            val statement = if (annotation.className.isNotEmpty()) {
-                annotation.className
-            } else {
-                clazz::class.java.simpleName
-            }
-            executeLog(statement, lifecycleEvent.eventName, bundle)
+        if (shouldExecuteLog) {
+            executeLog(
+                getLogStatement(clazz, annotation),
+                lifecycleEvent.eventName,
+                bundle
+            )
+        }
+    }
+
+    private fun <T : Any> getLogStatement(clazz: T, annotation: LogLifecykle?): String {
+        return if (annotation == null || annotation.className.isEmpty()) {
+            clazz::class.java.simpleName
+        } else {
+            annotation.className
         }
     }
 
