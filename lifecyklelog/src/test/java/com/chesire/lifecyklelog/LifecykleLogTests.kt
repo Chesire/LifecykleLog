@@ -45,7 +45,7 @@ class LifecykleLogTests {
     @Test
     fun `logLifecycle with no annotation and !requireAnnotation executes on handler`() {
         val unannotatedClass = UnannotatedClass()
-        val mockHandler = mockk<LogHandler>{
+        val mockHandler = mockk<LogHandler> {
             every { logLifecycleMethod(any(), any(), any()) } just Runs
         }
         LifecykleLog.logHandler = mockHandler
