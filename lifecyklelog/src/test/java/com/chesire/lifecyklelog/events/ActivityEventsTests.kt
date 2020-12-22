@@ -103,15 +103,6 @@ class ActivityEventsTests {
     }
 
     @Test
-    fun `onActivitySaveInstanceState logs the activity with ON_SAVE_INSTANCE_STATE lifecycle event`() {
-        val mockActivity = mockk<Activity>()
-
-        ActivityEvents.onActivitySaveInstanceState(mockActivity, null)
-
-        verify { LifecykleLog.logLifecycle(mockActivity, LifecycleEvent.ON_SAVE_INSTANCE_STATE) }
-    }
-
-    @Test
     fun `onActivitySaveInstanceState logs the activity with ON_SAVE_INSTANCE_STATE lifecycle event with bundle`() {
         val mockBundle = mockk<Bundle>()
         val mockActivity = mockk<Activity>()
