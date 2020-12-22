@@ -11,14 +11,16 @@ import org.junit.Test
 
 class LifecykleLogTests {
     companion object {
-        var logHandlerDefault: LogHandler? = null
-        lateinit var logEvents: Array<LifecycleEvent>
+        private var logHandlerDefault: LogHandler? = null
+        private lateinit var logEvents: Array<LifecycleEvent>
+        private var requireAnnotation: Boolean = true
 
         @BeforeClass
         @JvmStatic
         fun getDefaults() {
             logHandlerDefault = LifecykleLog.logHandler
             logEvents = LifecykleLog.logEvents
+            requireAnnotation = LifecykleLog.requireAnnotation
         }
     }
 
@@ -26,10 +28,11 @@ class LifecykleLogTests {
     fun setup() {
         LifecykleLog.logHandler = logHandlerDefault
         LifecykleLog.logEvents = logEvents
+        LifecykleLog.requireAnnotation = requireAnnotation
     }
 
     @Test
-    fun `logLifecycle with no annotation doesn't execute on handler`() {
+    fun `logLifecycle with no annotation and requireAnnotation doesn't execute on handler`() {
         val unannotatedClass = UnannotatedClass()
         val mockHandler = mockk<LogHandler>()
         LifecykleLog.logHandler = mockHandler
@@ -37,6 +40,26 @@ class LifecykleLogTests {
         LifecykleLog.logLifecycle(unannotatedClass, LifecycleEvent.ON_ATTACH)
 
         verify(exactly = 0) { mockHandler.logLifecycleMethod(any(), any(), any()) }
+    }
+
+    @Test
+    fun `logLifecycle with no annotation and !requireAnnotation executes on handler`() {
+        val unannotatedClass = UnannotatedClass()
+        val mockHandler = mockk<LogHandler> {
+            every { logLifecycleMethod(any(), any(), any()) } just Runs
+        }
+        LifecykleLog.logHandler = mockHandler
+        LifecykleLog.requireAnnotation = false
+
+        LifecykleLog.logLifecycle(unannotatedClass, LifecycleEvent.ON_ATTACH)
+
+        verify(exactly = 1) {
+            mockHandler.logLifecycleMethod(
+                any(),
+                LifecycleEvent.ON_ATTACH.eventName,
+                any()
+            )
+        }
     }
 
     @Test
