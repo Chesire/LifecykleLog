@@ -23,9 +23,9 @@ public class JApplicationOverride extends Application {
         super.onCreate();
 
         LifecycleEvent[] events = {
-                LifecycleEvent.ON_CREATE,
-                LifecycleEvent.ON_ATTACH,
-                LifecycleEvent.ON_DESTROY
+            LifecycleEvent.ON_CREATE,
+            LifecycleEvent.ON_ATTACH,
+            LifecycleEvent.ON_DESTROY
         };
         LifecykleLog.INSTANCE.initialize(this);
         LifecykleLog.INSTANCE.setLogEvents(events);
