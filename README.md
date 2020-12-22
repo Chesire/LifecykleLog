@@ -7,7 +7,6 @@
 ![Android CI](https://github.com/Chesire/LifecykleLog/workflows/Android%20CI/badge.svg)
 [![codecov](https://codecov.io/gh/Chesire/LifecykleLog/branch/master/graph/badge.svg)](https://codecov.io/gh/Chesire/LifecykleLog)
 
-
 ## Installation
 
 Gradle - add the following line to your `build.gradle`
@@ -29,7 +28,8 @@ class ApplicationOverride : Application() {
 }
 ```
 
-Add the `@LogLifecykle` annotation to the Activity or Fragment that the lifecycle methods should be logged for.
+Add the `@LogLifecykle` annotation to the Activity or Fragment that the
+lifecycle methods should be logged for.
 
 ```kotlin
 @LogLifecykle
@@ -41,7 +41,7 @@ class MainFragment : Fragment() { ...
 
 Then lifecycle events will be logged out in logcat.
 
-```
+```text
 D/Lifecykle: MainActivity ⇀ onStart
 D/Lifecykle: MainFragment ⇀ onAttach
 D/Lifecykle: MainFragment ⇀ onCreate
@@ -59,7 +59,10 @@ D/Lifecykle: MainFragment ⇀ onStop
 ## Configuration
 
 ### Logging mechanism
-By default LogLifecykle will output to `Log.d` with a tag of `Lifecykle`, to override this behaviour pass an implementation into the `LifecykleLog.logHandler`.
+
+By default LogLifecykle will output to `Log.d` with a tag of `Lifecykle`, to
+override this behaviour pass an implementation into the
+`LifecykleLog.logHandler`.
 
 ```kotlin
 LifecykleLog.logHandler = LogHandler { clazz, lifecycleEvent, bundle ->
@@ -80,7 +83,10 @@ through the LogHandler. In instances where there is no bundle, or it is empty,
 then the value will simply be "null".
 
 ### Lifecycle methods
-To customise which lifecycle methods are logged out, an array of the `LifecycleEvent` enum can be passed into  `LifecykleLog.logEvents`, this can also be done with the `@LogLifecykle` annotation.
+
+To customise which lifecycle methods are logged out, an array of the
+`LifecycleEvent` enum can be passed into  `LifecykleLog.logEvents`, this can
+also be done with the `@LogLifecykle` annotation.
 
 ```kotlin
 LifecykleLog.logEvents = arrayOf(
@@ -94,11 +100,16 @@ class MainActivity : AppCompatActivity() {
 @LogLifecykle(overrideLogEvents = [LifecycleEvent.ON_ACTIVITY_CREATED, LifecycleEvent.ON_ATTACH])
 class MainFragment : Fragment() {
 ```
-If `logEvents` is provided to the `LifecykleLog` then it will override the defaults.  
-If `overrideLogEvents` is provided on the annotation, **only** the methods that are provided in this will be logged out.
+
+If `logEvents` is provided to the `LifecykleLog` then it will override the
+defaults.  
+If `overrideLogEvents` is provided on the annotation, **only** the methods that
+are provided in this will be logged out.
 
 ### Class name
-To customise the class name that is logged out, a new name can be provided to the annotation.
+
+To customise the class name that is logged out, a new name can be provided to
+the annotation.
 
 ```kotlin
 @LogLifecykle(className = "MainActivity")
@@ -108,7 +119,9 @@ class MainActivity : AppCompatActivity() {
 class MainFragment : Fragment() {
 ```
 
-This can be useful if ProGuard strips out the class names and you really need to see them in the logs. By default the name will be pulled from the objects `class.java.simpleName`.
+This can be useful if ProGuard strips out the class names and you really need to
+see them in the logs. By default the name will be pulled from the objects
+`class.java.simpleName`.
 
 ### Remove Annotation
 
@@ -124,12 +137,17 @@ This will ignore any annotations that are currently set, and perform logging for
 every Activity and Fragment on the lifecycle events defined in
 `LifecykleLog.logEvents`.
 
-_For more examples and usage, please refer to the [sample](https://github.com/Chesire/LifecykleLog/tree/master/lifecyklelog-sample)._
-
+_For more examples and usage, please refer to the
+[sample](https://github.com/Chesire/LifecykleLog/tree/master/lifecyklelog-sample)._
 
 ## Contributing
-Please read [CONTRIBUTING.md](https://github.com/Chesire/LifecykleLog/blob/master/CONTRIBUTING.md) for details on how to contribute.
 
+Please read
+[CONTRIBUTING.md](https://github.com/Chesire/LifecykleLog/blob/master/CONTRIBUTING.md)
+for details on how to contribute.
 
 ## License
-Apache 2.0 - See [LICENSE](https://github.com/Chesire/LifecykleLog/blob/master/LICENSE) for more information.
+
+Apache 2.0 - See
+[LICENSE](https://github.com/Chesire/LifecykleLog/blob/master/LICENSE) for more
+information.
