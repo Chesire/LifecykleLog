@@ -2,7 +2,7 @@
 
 > Library to easily log out Android lifecycle methods for Activities and Fragments.
 
-[![Download](https://api.bintray.com/packages/chesire/LifecykleLog/lifecyklelog/images/download.svg) ](https://bintray.com/chesire/LifecykleLog/lifecyklelog/_latestVersion)
+[![Download](https://api.bintray.com/packages/chesire/LifecykleLog/lifecyklelog/images/download.svg)](https://bintray.com/chesire/LifecykleLog/lifecyklelog/_latestVersion)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-LifecykleLog-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7752)
 ![Android CI](https://github.com/Chesire/LifecykleLog/workflows/Android%20CI/badge.svg)
 [![codecov](https://codecov.io/gh/Chesire/LifecykleLog/branch/master/graph/badge.svg)](https://codecov.io/gh/Chesire/LifecykleLog)
@@ -75,6 +75,10 @@ LifecykleLog.logHandler = LogHandler { clazz, lifecycleEvent, bundle ->
 }
 ```
 
+For lifecycle methods which pass a bundle along, it will automatically be pushed
+through the LogHandler. In instances where there is no bundle, or it is empty,
+then the value will simply be "null".
+
 ### Lifecycle methods
 To customise which lifecycle methods are logged out, an array of the `LifecycleEvent` enum can be passed into  `LifecykleLog.logEvents`, this can also be done with the `@LogLifecykle` annotation.
 
@@ -106,9 +110,19 @@ class MainFragment : Fragment() {
 
 This can be useful if ProGuard strips out the class names and you really need to see them in the logs. By default the name will be pulled from the objects `class.java.simpleName`.
 
-### Bundle
-For lifecycle methods which pass a bundle along, it will automatically be pushed through the interface. In instances where there is no bundle, or it is empty, then the value will simply be "null".  
+### Remove Annotation
 
+If you want to perform logging of *ALL* Activities and Fragments, without
+needing to add the annotation to them, then the configuration option
+`requireAnnotation` can be set to `false`.
+
+```kotlin
+LifecykleLog.requireAnnotation = false
+```
+
+This will ignore any annotations that are currently set, and perform logging for
+every Activity and Fragment on the lifecycle events defined in
+`LifecykleLog.logEvents`.
 
 _For more examples and usage, please refer to the [sample](https://github.com/Chesire/LifecykleLog/tree/master/lifecyklelog-sample)._
 
