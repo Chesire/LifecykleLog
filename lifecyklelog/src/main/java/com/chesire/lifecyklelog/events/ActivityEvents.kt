@@ -42,7 +42,7 @@ internal object ActivityEvents : Application.ActivityLifecycleCallbacks {
         LifecykleLog.logLifecycle(activity, LifecycleEvent.ON_DESTROY)
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         LifecykleLog.logLifecycle(activity, LifecycleEvent.ON_SAVE_INSTANCE_STATE, outState)
     }
 }
