@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 3.1.0
+_20-12-22_
+
+* feat: allow logging without annotation
+  * Add new configuration option to enable logging for all activities/fragments, without the need for the annotation.
+
 ## Version 3.0.0
 _19-12-31_
 
