@@ -18,7 +18,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "com.chesire.lintrules:lint-gradle:$lintrules_version"
     testImplementation 'io.mockk:mockk:1.10.6'
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
 }
 
 ext {
