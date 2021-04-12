@@ -9,6 +9,9 @@ android {
     defaultConfig {
         resValue "string", "library_Lifecyklelog_libraryVersion", "${getVersionTag()}"
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
