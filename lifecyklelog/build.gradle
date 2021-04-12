@@ -9,6 +9,9 @@ android {
     defaultConfig {
         resValue "string", "library_Lifecyklelog_libraryVersion", "${getVersionTag()}"
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -17,7 +20,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "com.chesire.lintrules:lint-gradle:$lintrules_version"
-    testImplementation 'io.mockk:mockk:1.10.6'
+    testImplementation 'io.mockk:mockk:1.11.0'
     testImplementation 'junit:junit:4.13.2'
 }
 
