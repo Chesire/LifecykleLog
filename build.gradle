@@ -1,6 +1,6 @@
 buildscript {
     ext.jacoco_version = '0.8.7'
-    ext.kotlin_version = '1.5.10'
+    ext.kotlin_version = '1.5.20'
     repositories {
         google()
         jcenter()
