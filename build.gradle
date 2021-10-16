@@ -35,8 +35,8 @@ task clean(type: Delete) {
 detekt {
     config = files("detekt.yml")
     input = files(
-            "lifecyklelog/src/main/java",
-            "lifecyklelog-sample/src/main/java"
+        "lifecyklelog/src/main/java",
+        "lifecyklelog-sample/src/main/java"
     )
     reports {
         xml {
