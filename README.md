@@ -2,17 +2,21 @@
 
 > Library to easily log out Android lifecycle methods for Activities and Fragments.
 
-[![Download](https://api.bintray.com/packages/chesire/LifecykleLog/lifecyklelog/images/download.svg)](https://bintray.com/chesire/LifecykleLog/lifecyklelog/_latestVersion)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-LifecykleLog-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7752)
 ![Android CI](https://github.com/Chesire/LifecykleLog/workflows/Android%20CI/badge.svg)
 [![codecov](https://codecov.io/gh/Chesire/LifecykleLog/branch/master/graph/badge.svg)](https://codecov.io/gh/Chesire/LifecykleLog)
 
 ## Installation
 
-Gradle - add the following line to your `build.gradle`
+Gradle:
+Make sure you have JitPack as a source
+```groovy
+maven { url 'https://jitpack.io' }
+```
+add the following line to your `build.gradle`, with version being the latest tag.
 
 ```groovy
-implementation 'com.chesire:lifecyklelog:{version}'
+implementation 'com.github.Chesire:LifecykleLog:{version}'
 ```
 
 ## Usage example
