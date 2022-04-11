@@ -24,12 +24,12 @@ jobs:
       run: ./gradlew jacocoTestReport
     - uses: codecov/codecov-action@v3
     - name: upload test results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: tests
         path: lifecyklelog/build/reports/
     - name: upload test xml
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: test_xml
         path: lifecyklelog/build/test-results/
@@ -48,14 +48,14 @@ jobs:
     - name: run lintDebug
       run: ./gradlew lintDebug
     - name: upload lint results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: lint
         path: lifecyklelog/build/reports/
     - name: run detekt
       run: ./gradlew detekt
     - name: upload detekt results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: detekt
         path: build/reports/
