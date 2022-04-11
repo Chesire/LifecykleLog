@@ -85,17 +85,17 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gems-
     - name: download lint results
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: lint
         path: lifecyklelog/build/reports/
     - name: download detekt results
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: detekt
         path: build/reports/
     - name: download test results
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: test_xml
         path: lifecyklelog/build/test-results/
