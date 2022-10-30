@@ -16,7 +16,7 @@ maven { url 'https://jitpack.io' }
 add the following line to your `build.gradle`, with version being the latest tag.
 
 ```groovy
-implementation 'com.github.Chesire:LifecykleLog:{version}'
+implementation 'com.github.chesire:lifecyklelog:{version}'
 ```
 
 ## Usage example
